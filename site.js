@@ -254,7 +254,7 @@ const PACKAGES = [
     costs: ["Single supplement: Rp 1.700.000 (low season) / Rp 2.450.000 (peak season)", "Besaran DP dikonfirmasi lewat WhatsApp"].concat(PAY_GIVA),
     terms: TERMS_MY },
 
-  { slug:"bangkok-pattaya-4d3n", name:"Tour Bangkok Pattaya 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, color:"#0b4fae,#ff9f00", price:63500000, tag:"", image:"tour-bangkok-pattaya-4d3n.png",
+  { slug:"bangkok-pattaya-4d3n", name:"Tour Bangkok Pattaya 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, color:"#0b4fae,#ff9f00", price:6350000, tag:"", image:"tour-bangkok-pattaya-4d3n.png",
     items:["Bangkok dan Pattaya","Berangkat setiap hari, minimal 2 orang (SIC)","Periode Nov 2026 sampai Mar 2027"],
     schedule:["Berangkat setiap hari, bebas pilih tanggal","Keberangkatan SIC (tour gabungan), minimal 2 orang","Periode Nov 2026 sampai Mar 2027","Meeting point: Bandara Don Mueang atau Suvarnabhumi, Bangkok"],
     daily:["2026-11-01","2027-03-31"],
