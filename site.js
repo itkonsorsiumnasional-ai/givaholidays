@@ -202,7 +202,7 @@ const SCH_STD = {
    slug : nama unik untuk alamat detail (huruf kecil, pakai strip)
    ============================================================ */
 const PACKAGES = [
-  { slug:"3-negara-7d6n", name:"Explore 3 Negara Asia 7D6N", dest:"Malaysia Singapore Thailand", type:"3 Negara", days:7, nights:6, flags:["my","sg","th"], color:"#0a3d91,#1f6fe0", price:6800000, tag:"Promo", image:"",
+  { slug:"3-negara-7d6n", name:"Explore 3 Negara Asia 7D6N", dest:"Malaysia Singapore Thailand", type:"3 Negara", days:7, nights:6, color:"#0a3d91,#1f6fe0", price:6800000, tag:"Promo", image:"tour-3-negara-7d6n.png",
     items:["Malaysia, Singapore, Thailand (Hatyai)","Jadwal Okt 2026 sampai Des 2027","DP mulai Rp 500.000"],
     schedule:["Keberangkatan mingguan, umumnya setiap Rabu. Di periode high season ada tambahan tanggal","Periode Okt 2026 sampai Des 2027","Bisa berangkat dari seluruh kota/airport di Indonesia","Meeting point: Bandara KLIA, Kuala Lumpur"],
     departures: sched(SCH_7D6N),
@@ -213,7 +213,7 @@ const PACKAGES = [
     costs: ["DP Rp 500.000 per orang", "Single supplement: Rp 1.950.000 (low season) / Rp 2.750.000 (peak season)"].concat(PAY_GIVA),
     terms: TERMS_MY },
 
-  { slug:"3-negara-bangkok-pattaya-8d7n", name:"Tour 3 Negara Asia 8D7N Bangkok Pattaya", dest:"Malaysia Singapore Thailand", type:"3 Negara", days:8, nights:7, flags:["my","sg","th"], color:"#0b4fae,#ffa800", price:null, tag:"", image:"",
+  { slug:"3-negara-bangkok-pattaya-8d7n", name:"Tour 3 Negara Asia 8D7N Bangkok Pattaya", dest:"Malaysia Singapore Thailand", type:"3 Negara", days:8, nights:7, color:"#0b4fae,#ffa800", price:null, tag:"", image:"tour-3-negara-bangkok-pattaya-8d7n.png",
     items:["Malaysia, Singapore, Bangkok, Pattaya","Jadwal Okt 2026 sampai Des 2027","Itinerari 8 hari lengkap"],
     schedule:["Keberangkatan mingguan, umumnya setiap Rabu. Di periode high season ada tambahan tanggal","Periode Okt 2026 sampai Des 2027","Bisa berangkat dari kota lainnya","Meeting point: Bandara KLIA (Kuala Lumpur) dan Bandara BKK (Bangkok)"],
     departures: sched(SCH_STD),
@@ -224,7 +224,7 @@ const PACKAGES = [
     costs: ["Single supplement: Rp 3.000.000 (low season) / Rp 4.000.000 (peak season)", "Besaran DP dikonfirmasi lewat WhatsApp"].concat(PAY_GIVA),
     terms: TERMS_8D },
 
-  { slug:"2-negara-4d3n", name:"Tour 2 Negara Malaysia Singapore 4D3N", dest:"Malaysia Singapore", type:"2 Negara", days:4, nights:3, flags:["my","sg"], color:"#0a3d91,#2f7fe8", price:null, tag:"", image:"",
+  { slug:"2-negara-4d3n", name:"Tour 2 Negara Malaysia Singapore 4D3N", dest:"Malaysia Singapore", type:"2 Negara", days:4, nights:3, color:"#0a3d91,#2f7fe8", price:null, tag:"", image:"tour-2-negara-4d3n",
     items:["Malaysia dan Singapore","Jadwal Okt 2026 sampai Des 2027","Cocok untuk liburan singkat"],
     schedule:["Keberangkatan mingguan, umumnya setiap Rabu. Di periode high season ada tambahan tanggal","Periode Okt 2026 sampai Des 2027","Bisa berangkat dari seluruh kota/airport di Indonesia","Meeting point: Bandara KLIA, Kuala Lumpur"],
     departures: sched(SCH_STD),
@@ -235,7 +235,7 @@ const PACKAGES = [
     costs: ["Single supplement: Rp 1.450.000 (low season) / Rp 2.200.000 (peak season)", "Besaran DP dikonfirmasi lewat WhatsApp"].concat(PAY_GIVA),
     terms: TERMS_MY },
 
-  { slug:"2-negara-5d4n", name:"Tour 2 Negara Malaysia Singapore 5D4N", dest:"Malaysia Singapore", type:"2 Negara", days:5, nights:4, flags:["my","sg"], color:"#ff9f00,#ffc23d", price:null, tag:"", image:"",
+  { slug:"2-negara-5d4n", name:"Tour 2 Negara Malaysia Singapore 5D4N", dest:"Malaysia Singapore", type:"2 Negara", days:5, nights:4, color:"#ff9f00,#ffc23d", price:null, tag:"", image:"tour-2-negara-5d4n.png",
     items:["Malaysia dan Singapore","Waktu lebih longgar di tiap kota","Jadwal Okt 2026 sampai Des 2027"],
     schedule:["Keberangkatan mingguan, umumnya setiap Rabu. Di periode high season ada tambahan tanggal","Periode Okt 2026 sampai Des 2027","Bisa berangkat dari kota lainnya","Meeting point: Bandara KLIA, Kuala Lumpur"],
     departures: sched(SCH_STD),
@@ -246,7 +246,7 @@ const PACKAGES = [
     costs: ["Single supplement: Rp 1.700.000 (low season) / Rp 2.450.000 (peak season)", "Besaran DP dikonfirmasi lewat WhatsApp"].concat(PAY_GIVA),
     terms: TERMS_MY },
 
-  { slug:"bangkok-pattaya-4d3n", name:"Tour Bangkok Pattaya 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, flags:["th"], color:"#0b4fae,#ff9f00", price:null, tag:"", image:"",
+  { slug:"bangkok-pattaya-4d3n", name:"Tour Bangkok Pattaya 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, color:"#0b4fae,#ff9f00", price:null, tag:"", image:"tour-bangkok-pattaya-4d3n.png",
     items:["Bangkok dan Pattaya","Berangkat setiap hari, minimal 2 orang (SIC)","Periode Nov 2026 sampai Mar 2027"],
     schedule:["Berangkat setiap hari, bebas pilih tanggal","Keberangkatan SIC (tour gabungan), minimal 2 orang","Periode Nov 2026 sampai Mar 2027","Meeting point: Bandara Don Mueang atau Suvarnabhumi, Bangkok"],
     daily:["2026-11-01","2027-03-31"],
@@ -256,7 +256,7 @@ const PACKAGES = [
     costs: COSTS_TH,
     terms: TERMS_TH },
 
-  { slug:"bangkok-damnoen-dinner-cruise-4d3n", name:"Bangkok Damnoen Dinner Cruise 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, flags:["th"], color:"#06306f,#ffb400", price:null, tag:"", image:"",
+  { slug:"bangkok-damnoen-dinner-cruise-4d3n", name:"Bangkok Damnoen Dinner Cruise 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, color:"#06306f,#ffb400", price:null, tag:"", image:"tour-bangkok-damnoen-dinner-cruise-4d3n.png",
     items:["Bangkok dan Damnoen Saduak","Makan malam di kapal pesiar","Berangkat setiap hari, bebas pilih tanggal"],
     schedule:["Berangkat setiap hari, bebas pilih tanggal","Keberangkatan SIC (tour gabungan), minimal 2 orang","Periode Nov 2026 sampai Mar 2027","Meeting point: Bandara Don Mueang atau Suvarnabhumi, Bangkok"],
     bonus:["Free Calypso Cabaret Show di Asiatique the Riverfront Night Market"],
