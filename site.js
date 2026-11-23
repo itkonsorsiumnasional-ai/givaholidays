@@ -30,7 +30,7 @@ const SITE = {
    META PIXEL (PageView)
    ============================================================ */
 (function(){
-  if (!SITE.pixelId) return;
+  if (!SITE.pixelId || document.documentElement.hasAttribute('data-no-track')) return;
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
   n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
@@ -275,6 +275,22 @@ const PACKAGES = [
     costs: COSTS_TH,
     terms: TERMS_TH }
 ];
+
+/* ============================================================
+   DATA DARI packages.json (dibuat dan diubah lewat admin.html)
+   Kalau packages.json belum ada, data bawaan di atas yang dipakai.
+   ============================================================ */
+(function(){
+  try{
+    const x = new XMLHttpRequest();
+    x.open("GET", "packages.json?v=" + Math.floor(Date.now()/60000), false);
+    x.send();
+    if (x.status === 200){
+      const d = JSON.parse(x.responseText);
+      if (Array.isArray(d)) PACKAGES.splice(0, PACKAGES.length, ...d);
+    }
+  }catch(e){}
+})();
 
 /* ============================================================
    Bagian di bawah ini tidak perlu diubah
