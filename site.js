@@ -1,3 +1,14 @@
+/* Sembunyikan ".html" di address bar (link lama yang masih memakai .html tetap berfungsi) */
+(function(){
+  try{
+    const p = location.pathname;
+    if (/\.html$/.test(p)) {
+      const n = p.replace(/\/index\.html$/, "/").replace(/\.html$/, "");
+      history.replaceState(null, "", n + location.search + location.hash);
+    }
+  }catch(e){}
+})();
+
 /* ============================================================
    PENGATURAN BERSAMA GIVA HOLIDAYS
    Ubah di sini sekali, semua halaman ikut berubah.
@@ -301,16 +312,16 @@ const rupiah = n => "Rp " + n.toLocaleString("id-ID");
 const findPackage = slug => PACKAGES.find(p => p.slug === slug);
 
 const NAV = [
-  ["home",        "index.html",        "Beranda"],
-  ["paket",       "paket.html",        "Paket Wisata"],
-  ["layanan",     "layanan.html",      "Layanan"],
-  ["dokumentasi", "dokumentasi.html",  "Dokumentasi"],
-  ["kontak",      "kontak.html",       "Kontak"]
+  ["home",        "./",        "Beranda"],
+  ["paket",       "paket",        "Paket Wisata"],
+  ["layanan",     "layanan",      "Layanan"],
+  ["dokumentasi", "dokumentasi",  "Dokumentasi"],
+  ["kontak",      "kontak",       "Kontak"]
 ];
 
 function packageCard(p){
   const msg = `Halo Giva Holidays, saya tertarik paket ${p.name} (${p.days} hari ${p.nights} malam). Boleh minta jadwal dan harga terbaru?`;
-  const detail = `detail.html?p=${p.slug}`;
+  const detail = `detail?p=${p.slug}`;
   const price = p.price
     ? `<small>Mulai dari</small><strong>${rupiah(p.price)}</strong>/orang`
     : `<small>Harga</small><strong>Hubungi kami</strong>`;
@@ -373,7 +384,7 @@ function renderHeader(active){
   return `
   <header>
     <div class="wrap nav">
-      <a href="index.html" class="brand" aria-label="${SITE.name}">
+      <a href="./" class="brand" aria-label="${SITE.name}">
         <img src="logo.png" alt="Logo Giva Holidays" width="56" height="56">
         <span>Giva Holidays</span>
       </a>
@@ -401,7 +412,7 @@ function renderFooter(){
     <div class="wrap">
       <div class="foot-grid">
         <div>
-          <a class="foot-brand" href="index.html"><img src="logo.png" alt="${SITE.name}" width="64" height="64"></a>
+          <a class="foot-brand" href="./"><img src="logo.png" alt="${SITE.name}" width="64" height="64"></a>
           <p>Paket tour Malaysia, Singapore, dan Thailand untuk perjalanan yang nyaman dan terencana. ${SITE.tagline}.</p>
         </div>
         <div>
