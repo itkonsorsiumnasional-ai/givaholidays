@@ -224,7 +224,7 @@ const PACKAGES = [
     costs: ["Single supplement: Rp 3.000.000 (low season) / Rp 4.000.000 (peak season)", "Besaran DP dikonfirmasi lewat WhatsApp"].concat(PAY_GIVA),
     terms: TERMS_8D },
 
-  { slug:"2-negara-4d3n", name:"Tour 2 Negara Malaysia Singapore 4D3N", dest:"Malaysia Singapore", type:"2 Negara", days:4, nights:3, color:"#0a3d91,#2f7fe8", price:null, tag:"", image:"tour-2-negara-4d3n",
+  { slug:"2-negara-4d3n", name:"Tour 2 Negara Malaysia Singapore 4D3N", dest:"Malaysia Singapore", type:"2 Negara", days:4, nights:3, color:"#0a3d91,#2f7fe8", price:null, tag:"", image:"tour-2-negara-4d3n.png",
     items:["Malaysia dan Singapore","Jadwal Okt 2026 sampai Des 2027","Cocok untuk liburan singkat"],
     schedule:["Keberangkatan mingguan, umumnya setiap Rabu. Di periode high season ada tambahan tanggal","Periode Okt 2026 sampai Des 2027","Bisa berangkat dari seluruh kota/airport di Indonesia","Meeting point: Bandara KLIA, Kuala Lumpur"],
     departures: sched(SCH_STD),
