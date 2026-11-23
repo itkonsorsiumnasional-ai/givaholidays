@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Giva Holidays | Paket Wisata Malaysia, Singapore, Thailand</title> <meta name="description" content="Giva Holidays melayani paket wisata Malaysia, Singapore, dan Thailand. Konsultasi gratis lewat WhatsApp.">
+<title>Giva Holidays | Paket Wisata Malaysia, Singapore, Thailand</title>
+<meta name="description" content="Giva Holidays melayani paket wisata Malaysia, Singapore, dan Thailand. Konsultasi gratis lewat WhatsApp.">
 <meta property="og:title" content="Giva Holidays">
 <meta property="og:description" content="Paket wisata Malaysia, Singapore, dan Thailand. Konsultasi gratis lewat WhatsApp.">
 <meta property="og:image" content="logo.png">
@@ -14,11 +15,26 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
-/* Hero: foto latar penuh + lapisan biru Giva Holidays (gaya Alzaz) */
-.hero.hero-foto{background:linear-gradient(100deg,rgba(14,26,84,.90) 0%,rgba(19,33,107,.74) 48%,rgba(31,63,158,.50) 100%),url("hero-foto.jpg") center 60%/cover no-repeat #13216b}
+/* Hero: foto latar penuh di posisi tengah + lapisan biru tipis supaya teks tetap terbaca.
+   Foto: hero-foto.jpg (taruh di folder yang sama dengan index.html).
+   Mau menggeser fokus foto? Ubah "center center" (kiri-kanan, atas-bawah).
+   Contoh: "center 75%" untuk menampilkan rombongan di bagian bawah foto. */
+.hero.hero-foto{
+  background:
+    linear-gradient(100deg,rgba(6,28,80,.78) 0%,rgba(6,28,80,.55) 45%,rgba(6,28,80,.25) 100%),
+    url("hero-foto.jpg") center center / cover no-repeat #13216b;
+}
 .hero.hero-foto::after{display:none}
 .hero.hero-foto .hero-logo{box-shadow:0 20px 50px rgba(0,0,0,.35)}
-.hero.hero-foto h1,.hero.hero-foto p{text-shadow:0 2px 12px rgba(0,0,0,.35)}
+.hero.hero-foto h1,.hero.hero-foto p{text-shadow:0 2px 14px rgba(0,0,0,.55)}
+.hero.hero-foto .hero-points{text-shadow:0 1px 8px rgba(0,0,0,.6)}
+@media (max-width:960px){
+  .hero.hero-foto{
+    background:
+      linear-gradient(180deg,rgba(6,28,80,.72) 0%,rgba(6,28,80,.60) 100%),
+      url("hero-foto.jpg") center center / cover no-repeat #13216b;
+  }
+}
 </style>
 </head>
 <body data-page="home">
