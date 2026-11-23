@@ -6,14 +6,18 @@
 const SITE = {
   name: "Giva Holidays",
   tagline: "Explore The World",
-  waNumber: "62XXXXXXXXXXX",          // GANTI: format 62..., tanpa tanda + atau 0 di depan
-  waDisplay: "08XX-XXXX-XXXX",        // GANTI: nomor yang tampil di website
-  email: "",                           // isi jika ada, kosong = tidak ditampilkan
+  waNumber: "6287811555722",          // GANTI: format 62..., tanpa tanda + atau 0 di depan
+  waDisplay: "0878-1155-5722",        // GANTI: nomor yang tampil di website
+  email: "givaholidays@gmail.com",                           // isi jika ada, kosong = tidak ditampilkan
   instagram: "givaholidays",
+  threads: "giva holidays",               // tanpa @
   tiktok: "givaholidays",
-  facebook: "givaholidays",
+  facebook: "giva holidays",
   website: "www.givaholidays.com",
-  address: "",                         // isi alamat kantor, kosong = tidak ditampilkan
+  offices: [
+    { name:"Head Office", address:"Cornelia Residence Blok GS12A No. 23 Graha Raya Bintaro, Tangerang,",  },
+    { name:"Branch Office Bekasi", address:"Ruko Kalimas Blok A 12, Jl. Chairil Anwar, Bekasi Timur",  },
+    { name:"Branch Office Graha Raya Bintaro", address:"Ruko Venice Blok JE No.8, Jl. Boulevard Graha Raya Bintaro, Tangerang Selatan",  }
   hours: "Senin sampai Sabtu, 09.00 sampai 17.00",
   pixelId: "1092160716709527"          // Dataset Meta "Giva Holidays"; kosongkan "" kalau tidak dipakai
 };
