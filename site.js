@@ -288,18 +288,93 @@ const PACKAGES = [
 ];
 
 /* ============================================================
+   PEMBERSIH DATA (dipakai website dan admin.html)
+   Semua data dari packages.json dibersihkan dulu sebelum tampil:
+   tanda < > dibuang, tanda kutip diganti, nama file gambar, warna,
+   dan tanggal diperiksa. Data yang tidak valid dibuang.
+   ============================================================ */
+const _txt = (v, max) => typeof v === "string" ? v.replace(/[<>`]/g, "").replace(/"/g, "\u201d").replace(/'/g, "\u2019").trim().slice(0, max || 600) : "";
+const cleanImg = v => {
+  const s = String(v || "").trim().replace(/^\//, "");
+  return /^(?!.*\.\.)(?!.*\/\/)[A-Za-z0-9_-][A-Za-z0-9_\-./]{0,150}\.(png|jpe?g|webp|gif)$/i.test(s) ? s : "";
+};
+const _isoOk = s => /^\d{4}-\d{2}-\d{2}$/.test(s) && isoOf(parseISO(s)) === s;
+
+function cleanPackage(p){
+  if (!p || typeof p !== "object" || Array.isArray(p)) return null;
+  const slug = typeof p.slug === "string" && /^[a-z0-9-]{1,80}$/.test(p.slug) ? p.slug : "";
+  const name = _txt(p.name, 150), dest = _txt(p.dest, 150), type = _txt(p.type, 40);
+  const days = parseInt(p.days, 10), nights = parseInt(p.nights, 10);
+  if (!slug || !name || !dest || !type || !(days > 0 && days < 100) || !(nights >= 0 && nights < 100)) return null;
+  const list = (v, n, len) => Array.isArray(v) ? v.slice(0, n).map(x => _txt(x, len)).filter(Boolean) : [];
+  const q = { slug, name, dest, type, days, nights };
+  q.color = typeof p.color === "string" && /^#[0-9a-f]{3,8}(,#[0-9a-f]{3,8}){0,3}$/i.test(p.color) ? p.color : "#0a3d91,#1f6fe0";
+  q.price = typeof p.price === "number" && isFinite(p.price) && p.price >= 0 ? Math.round(p.price) : null;
+  q.tag = _txt(p.tag, 30);
+  const im = cleanImg(p.image); if (im) q.image = im;
+  if (p.featured === true) q.featured = true;
+  const fl = Array.isArray(p.flags) ? p.flags.filter(c => typeof c === "string" && /^[a-z]{2}$/.test(c)).slice(0, 6) : [];
+  if (fl.length) q.flags = fl;
+  q.items = list(p.items, 12, 200);
+  if (!q.items.length) q.items = [dest, days + " hari " + nights + " malam"];
+  q.schedule = list(p.schedule, 20, 300);
+  q.bonus = list(p.bonus, 20, 300);
+  q.included = list(p.included, 40, 300);
+  q.excluded = list(p.excluded, 40, 300);
+  q.costs = list(p.costs, 40, 600);
+  q.terms = list(p.terms, 60, 1500);
+  let dep = Array.isArray(p.departures) ? p.departures : [];
+  if (!dep.length && p.departuresCompact && typeof p.departuresCompact === "object") {
+    try { dep = sched(p.departuresCompact); } catch (e) { dep = []; }
+  }
+  dep = dep.filter(s => typeof s === "string" && /^\d{4}-\d{2}-\d{2}\*?$/.test(s) && _isoOk(s.replace("*", ""))).slice(0, 500);
+  if (dep.length) q.departures = dep;
+  if (Array.isArray(p.daily) && p.daily.length === 2 && p.daily.every(s => typeof s === "string" && _isoOk(s)) && p.daily[0] <= p.daily[1]) q.daily = p.daily.slice();
+  if (Array.isArray(p.itinerary)) {
+    const it = p.itinerary.slice(0, 30)
+      .filter(d => Array.isArray(d) && typeof d[0] === "string" && typeof d[1] === "string")
+      .map(d => [_txt(d[0], 300), _txt(d[1], 5000), _txt(d[2], 300)])
+      .filter(d => d[0] && d[1]);
+    if (it.length) q.itinerary = it;
+  }
+  return q;
+}
+function cleanDoc(d){
+  const src = cleanImg(d && d.src);
+  return src ? { src, cap: _txt(d.cap, 200), cat: _txt(d.cat, 40) } : null;
+}
+// Gabungkan paket bawaan + isi packages.json ({packages, hidden, docs} atau daftar penuh)
+function resolvePackages(d){
+  let list = null;
+  if (Array.isArray(d)) list = d.map(cleanPackage);
+  else if (d && Array.isArray(d.packages)) {
+    const hid = new Set((Array.isArray(d.hidden) ? d.hidden : []).filter(s => typeof s === "string"));
+    const ov = new Map(d.packages.map(p => [p && p.slug, p]));
+    const base = BUILTIN_PACKAGES.filter(p => !hid.has(p.slug)).map(p => cleanPackage(ov.get(p.slug)) || cleanPackage(p));
+    const extra = d.packages.filter(p => p && !BUILTIN_PACKAGES.some(b => b.slug === p.slug) && !hid.has(p.slug)).map(cleanPackage);
+    list = base.concat(extra);
+  }
+  if (!list) return null;
+  list = list.filter(Boolean);
+  return list.filter(p => p.featured).concat(list.filter(p => !p.featured));
+}
+
+/* ============================================================
    DATA DARI packages.json (dibuat dan diubah lewat admin.html)
    Kalau packages.json belum ada, data bawaan di atas yang dipakai.
    ============================================================ */
+const BUILTIN_PACKAGES = JSON.parse(JSON.stringify(PACKAGES));   // paket bawaan (dipakai admin.html)
+let ADMIN_DOCS = [];                                              // foto dokumentasi dari admin.html
 (function(){
   try{
     const x = new XMLHttpRequest();
     x.open("GET", "packages.json?v=" + Math.floor(Date.now()/60000), false);
     x.send();
-    if (x.status === 200){
-      const d = JSON.parse(x.responseText);
-      if (Array.isArray(d)) PACKAGES.splice(0, PACKAGES.length, ...d);
-    }
+    if (x.status !== 200) return;
+    const d = JSON.parse(x.responseText);
+    const list = resolvePackages(d);
+    if (list) PACKAGES.splice(0, PACKAGES.length, ...list);
+    if (d && Array.isArray(d.docs)) ADMIN_DOCS = d.docs.slice(0, 300).map(cleanDoc).filter(Boolean);
   }catch(e){}
 })();
 
@@ -466,6 +541,8 @@ function renderFooter(){
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Foto dokumentasi dari admin.html masuk ke daftar DOCS di halaman Dokumentasi
+  if (typeof DOCS !== "undefined" && Array.isArray(DOCS)) ADMIN_DOCS.forEach(x => { if (!DOCS.some(y => y.src === x.src)) DOCS.push(x); });
   const active = document.body.dataset.page;
   const h = document.getElementById("site-header");
   const f = document.getElementById("site-footer");
