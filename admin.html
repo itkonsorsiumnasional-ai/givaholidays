@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="id" data-no-track>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin | Giva Holidays</title>
+<link rel="icon" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+ body{background:var(--paper);padding:24px 0}
+ .box{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:20px}
+ .box h2{font-size:1.3rem;margin-bottom:10px}
+ .small{color:var(--muted);font-size:.9rem;margin-bottom:10px}
+ input,textarea,select{width:100%;padding:10px 12px;border:2px solid #d3def2;border-radius:12px;font:inherit}
+ textarea{min-height:240px;font-family:ui-monospace,Consolas,monospace;font-size:.85rem}
+ .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px}
+ .row>input,.row>select{flex:1;min-width:140px}
+ .btn{padding:10px 18px;font-size:.95rem}
+ .danger{background:#c0392b;color:#fff}
+ table{width:100%;border-collapse:collapse;font-size:.92rem}
+ th,td{text-align:left;padding:8px;border-bottom:1px solid #e3ecfb;vertical-align:middle}
+ #msg{padding:12px 16px;border-radius:12px;margin-bottom:16px;white-space:pre-wrap;display:none}
+ #msg.ok{display:block;background:#e6f7ec;color:#14532d}
+ #msg.err{display:block;background:#fdeaea;color:#7f1d1d}
+ .dirty{color:#b36b00;font-weight:800}
+ #lock{max-width:420px;margin:12vh auto}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+ <div id="lock" class="box">
+  <h2>Admin Giva Holidays</h2>
+  <p class="small">Masukkan passcode.</p>
+  <input id="pass" type="password" autocomplete="current-password" placeholder="Passcode">
+  <div class="row"><button class="btn btn-wa" id="login">Masuk</button></div>
+  <p id="lockmsg" class="small" style="margin-top:10px;color:#c0392b"></p>
+  <details style="margin-top:14px"><summary class="small">Ganti passcode</summary>
+   <p class="small">Ketik passcode baru, salin hasilnya, tempel ke <code>ADMIN_HASH</code> di admin.html.</p>
+   <input id="newpass" type="text" placeholder="Passcode baru"><input id="newhash" readonly placeholder="Hash muncul di sini" style="margin-top:8px">
+  </details>
+ </div>
+
+ <div id="app" hidden>
+  <h1 style="margin-bottom:6px">Panel Admin Paket Tour</h1>
+  <p class="small">Perubahan hanya berupa draf di browser ini sampai kamu klik <b>Publikasikan</b> atau mengunggah file <code>packages.json</code> sendiri.</p>
+  <div id="msg"></div>
+
+  <div class="box">
+   <h2>1. Paket saat ini <span id="dirty" class="dirty"></span></h2>
+   <div style="overflow-x:auto"><table><thead><tr><th>Nama</th><th>Slug</th><th>Durasi</th><th>Harga</th><th>Berangkat</th><th></th></tr></thead><tbody id="list"></tbody></table></div>
+   <div class="row"><button class="btn btn-outline" id="reset">Batalkan semua perubahan</button></div>
+  </div>
+
+  <div class="box">
+   <h2>2. Tambah / ubah paket (tempel JSON)</h2>
+   <p class="small">Boleh satu paket <code>{...}</code> atau banyak <code>[{...},{...}]</code>. Slug yang sudah ada akan diperbarui, yang baru akan ditambahkan. Tombol Edit di tabel memuat paket ke sini.</p>
+   <textarea id="json" spellcheck="false" placeholder='[{ "slug": "...", "name": "...", ... }]'></textarea>
+   <div class="row">
+    <select id="mode"><option value="merge">Gabung (tambah / perbarui)</option><option value="replace">Ganti SEMUA paket dengan JSON ini</option></select>
+    <button class="btn btn-wa" id="apply">Terapkan ke draf</button>
+    <button class="btn btn-outline" id="tpl">Isi contoh template</button>
+   </div>
+  </div>
+
+  <div class="box">
+   <h2>3. Simpan</h2>
+   <div class="row">
+    <button class="btn btn-outline" id="dl">Unduh packages.json</button>
+    <button class="btn btn-outline" id="cp">Salin JSON</button>
+   </div>
+   <p class="small" style="margin-top:12px">Atau publikasikan langsung ke GitHub. Token hanya disimpan di memori halaman ini dan hilang saat halaman ditutup.</p>
+   <div class="row">
+    <input id="owner" placeholder="Pemilik repo"><input id="repo" placeholder="Nama repo"><input id="branch" placeholder="Branch">
+   </div>
+   <div class="row"><input id="tok" type="password" autocomplete="off" placeholder="GitHub fine-grained token (Contents: Read and write, hanya repo ini)"></div>
+   <div class="row">
+    <button class="btn btn-primary" id="pub">Publikasikan ke GitHub</button>
+    <button class="btn btn-outline" id="pull">Muat data terbaru dari GitHub</button>
+   </div>
+  </div>
+ </div>
+</div>
+
+<script src="site.js"></script>
+<script>
+/* ===== PENGATURAN ===== */
+const ADMIN_HASH = "4a29e9ebdf9f94ccdc4847adf0b23e615c9ccc07b3fd897ec26ad22adcea76f7"; // passcode awal: Giva#Admin2026 (GANTI!)
+const GH = { owner: "itkonsorsiumnasional-ai", repo: "givaholidays", branch: "main", file: "packages.json" };
+
+const $ = id => document.getElementById(id);
+const sha256 = async s => [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)))].map(b => b.toString(16).padStart(2, "0")).join("");
+const clone = o => JSON.parse(JSON.stringify(o));
+const say = (t, ok) => { const m = $("msg"); m.className = ok ? "ok" : "err"; m.textContent = t; scrollTo(0, 0); };
+
+/* ===== LOGIN (penghalang tampilan; kunci sebenarnya adalah token GitHub) ===== */
+let fails = 0, lockedUntil = 0;
+$("newpass").addEventListener("input", async e => { $("newhash").value = e.target.value ? await sha256(e.target.value) : ""; });
+async function login(){
+  if (Date.now() < lockedUntil) { $("lockmsg").textContent = "Terlalu banyak percobaan. Tunggu sebentar."; return; }
+  if (await sha256($("pass").value) === ADMIN_HASH) { $("lock").hidden = true; $("app").hidden = false; init(); }
+  else { if (++fails >= 5) { lockedUntil = Date.now() + 30000; fails = 0; } $("lockmsg").textContent = "Passcode salah."; }
+}
+$("login").onclick = login;
+$("pass").addEventListener("keydown", e => { if (e.key === "Enter") login(); });
+
+/* ===== DATA ===== */
+let draft = [], base = "";
+const dirty = () => JSON.stringify(draft) !== base;
+const TEMPLATE = [{
+  slug: "contoh-paket-4d3n", name: "Contoh Paket 4D3N", dest: "Thailand", type: "Thailand", days: 4, nights: 3,
+  price: 6000000, tag: "", image: "", color: "#0a3d91,#1f6fe0",
+  items: ["Poin singkat 1", "Poin singkat 2"],
+  schedule: ["Keberangkatan setiap Rabu", "Meeting point: Bandara"],
+  departuresCompact: { "2027-01": "6 13 20 27", "2027-03": "6* 7* 17" },
+  bonus: [], itinerary: [["DAY 1 : JUDUL HARI", "Isi kegiatan hari 1.", "Nama hotel"], ["DAY 2 : TRANSFER OUT", "Isi kegiatan hari 2.", ""]],
+  included: ["Tiket pesawat pulang pergi"], excluded: ["Bagasi pesawat"], costs: ["DP Rp 500.000 per orang"], terms: ["Syarat 1"]
+}];
+const LISTS = ["items", "schedule", "bonus", "included", "excluded", "costs", "terms"];
+
+function validate(p, i){
+  const L = "Paket #" + (i + 1) + (p && p.slug ? " (" + p.slug + ")" : "") + ": ", e = [];
+  if (!p || typeof p !== "object" || Array.isArray(p)) return [L + "harus berupa objek { }"];
+  if (!/^[a-z0-9-]+$/.test(p.slug || "")) e.push(L + "slug wajib, hanya huruf kecil, angka, dan strip");
+  ["name", "dest", "type"].forEach(k => { if (!p[k] || typeof p[k] !== "string") e.push(L + k + " wajib berupa teks"); });
+  ["days", "nights"].forEach(k => { if (!Number.isInteger(p[k]) || p[k] < 1) e.push(L + k + " harus angka bulat"); });
+  if (p.price != null && typeof p.price !== "number") e.push(L + "price harus angka (tanpa titik) atau null");
+  LISTS.forEach(k => { if (p[k] != null && !(Array.isArray(p[k]) && p[k].every(x => typeof x === "string"))) e.push(L + k + " harus daftar teks"); });
+  if (!Array.isArray(p.items) || !p.items.length) e.push(L + "items wajib, minimal 1 poin");
+  if (!Array.isArray(p.itinerary) || !p.itinerary.length || p.itinerary.some(d => !Array.isArray(d) || typeof d[0] !== "string" || typeof d[1] !== "string"))
+    e.push(L + "itinerary wajib: daftar [judul hari, isi, hotel]");
+  if (p.departures && !(Array.isArray(p.departures) && p.departures.every(s => /^\d{4}-\d{2}-\d{2}\*?$/.test(s)))) e.push(L + "departures harus daftar tanggal YYYY-MM-DD (tambah * untuk high season)");
+  if (p.daily && !(Array.isArray(p.daily) && p.daily.length === 2)) e.push(L + 'daily harus ["tanggal-mulai","tanggal-akhir"]');
+  if (p.departuresCompact && typeof p.departuresCompact !== "object") e.push(L + "departuresCompact harus objek bulan: tanggal");
+  return e;
+}
+function normalize(p){
+  const q = clone(p);
+  if (q.departuresCompact) { q.departures = sched(q.departuresCompact); delete q.departuresCompact; }
+  LISTS.forEach(k => { if (!q[k]) q[k] = []; });
+  q.tag = q.tag || ""; q.color = q.color || "#0a3d91,#1f6fe0"; if (q.price === undefined) q.price = null;
+  if (!q.image) delete q.image;
+  return q;
+}
+
+/* ===== TAMPILAN ===== */
+function render(){
+  const tb = $("list"); tb.textContent = "";
+  draft.forEach(p => {
+    const tr = tb.insertRow();
+    [p.name, p.slug, p.days + "H" + p.nights + "M", p.price ? rupiah(p.price) : "Hubungi kami", p.daily ? "Setiap hari" : (p.departures || []).length + " tanggal"].forEach(v => { tr.insertCell().textContent = v; });
+    const c = tr.insertCell();
+    const ed = document.createElement("button"); ed.className = "btn btn-outline"; ed.textContent = "Edit";
+    ed.onclick = () => { $("json").value = JSON.stringify(p, null, 2); $("json").scrollIntoView({ behavior: "smooth" }); };
+    const del = document.createElement("button"); del.className = "btn danger"; del.textContent = "Hapus"; del.style.marginLeft = "6px";
+    del.onclick = () => { if (confirm('Hapus paket "' + p.name + '" dari draf?')) { draft = draft.filter(x => x.slug !== p.slug); render(); say('Paket "' + p.name + '" dihapus dari draf. Klik Publikasikan agar tampil di website.', true); } };
+    c.append(ed, del);
+  });
+  if (!draft.length) tb.insertRow().insertCell().textContent = "Belum ada paket.";
+  $("dirty").textContent = dirty() ? "(ada perubahan yang belum dipublikasikan)" : "";
+}
+function init(){
+  draft = clone(PACKAGES); base = JSON.stringify(draft);
+  $("owner").value = GH.owner; $("repo").value = GH.repo; $("branch").value = GH.branch;
+  render();
+}
+addEventListener("beforeunload", e => { if (!$("app").hidden && dirty()) { e.preventDefault(); e.returnValue = ""; } });
+
+/* ===== AKSI ===== */
+$("tpl").onclick = () => { $("json").value = JSON.stringify(TEMPLATE, null, 2); };
+$("reset").onclick = () => { if (!dirty() || confirm("Batalkan semua perubahan di draf?")) { draft = JSON.parse(base); render(); say("Draf dikembalikan.", true); } };
+$("apply").onclick = () => {
+  let data;
+  try { data = JSON.parse($("json").value); } catch (err) { return say("JSON tidak valid: " + err.message, false); }
+  const arr = Array.isArray(data) ? data : [data];
+  if (!arr.length) return say("JSON kosong.", false);
+  const errs = arr.flatMap(validate);
+  const slugs = arr.map(p => p && p.slug); if (new Set(slugs).size !== slugs.length) errs.push("Ada slug ganda di dalam JSON.");
+  if (errs.length) return say("Tidak diterapkan. Perbaiki dulu:\n- " + errs.join("\n- "), false);
+  const items = arr.map(normalize);
+  if ($("mode").value === "replace") {
+    if (!confirm("Semua paket sekarang akan diganti dengan " + items.length + " paket dari JSON ini. Lanjut?")) return;
+    draft = items; say("Draf diganti: " + items.length + " paket.", true);
+  } else {
+    let add = 0, upd = 0;
+    items.forEach(p => { const i = draft.findIndex(x => x.slug === p.slug); if (i >= 0) { draft[i] = p; upd++; } else { draft.push(p); add++; } });
+    say("Draf diperbarui: " + add + " paket ditambahkan, " + upd + " diperbarui. Klik Publikasikan agar tampil di website.", true);
+  }
+  render();
+};
+const out = () => JSON.stringify(draft, null, 2);
+$("dl").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([out()], { type: "application/json" })); a.download = "packages.json"; a.click(); };
+$("cp").onclick = async () => { try { await navigator.clipboard.writeText(out()); say("JSON disalin.", true); } catch (e) { say("Gagal menyalin. Pakai tombol Unduh.", false); } };
+
+/* ===== GITHUB ===== */
+const b64 = s => { const u = new TextEncoder().encode(s); let r = ""; for (let i = 0; i < u.length; i += 8192) r += String.fromCharCode(...u.subarray(i, i + 8192)); return btoa(r); };
+const unb64 = s => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\s/g, "")), c => c.charCodeAt(0)));
+const cfg = () => {
+  const o = $("owner").value.trim(), r = $("repo").value.trim(), b = $("branch").value.trim() || "main", t = $("tok").value.trim();
+  if (!o || !r || !t) { say("Isi pemilik repo, nama repo, dan token GitHub.", false); return null; }
+  return { url: `https://api.github.com/repos/${o}/${r}/contents/${GH.file}`, b, H: { Authorization: "Bearer " + t, Accept: "application/vnd.github+json" } };
+};
+async function remote(c){
+  const g = await fetch(c.url + "?ref=" + encodeURIComponent(c.b), { headers: c.H, cache: "no-store" });
+  if (g.status === 404) return null;
+  if (!g.ok) throw new Error("GitHub menolak (" + g.status + "). Cek token, nama repo, dan izin Contents.");
+  const j = await g.json(); return { sha: j.sha, data: JSON.parse(unb64(j.content)) };
+}
+$("pull").onclick = async () => {
+  const c = cfg(); if (!c) return;
+  try {
+    const r = await remote(c); if (!r) return say("packages.json belum ada di GitHub. Publikasikan dulu untuk membuatnya.", false);
+    if (dirty() && !confirm("Perubahan draf akan ditimpa data dari GitHub. Lanjut?")) return;
+    draft = r.data; base = JSON.stringify(draft); render(); say("Data terbaru dimuat dari GitHub.", true);
+  } catch (e) { say("Gagal: " + e.message, false); }
+};
+$("pub").onclick = async () => {
+  const c = cfg(); if (!c) return;
+  if (!draft.length && !confirm("Draf kosong: SEMUA paket akan hilang dari website. Lanjut?")) return;
+  try {
+    const r = await remote(c);
+    if (r && JSON.stringify(r.data) !== base && !confirm("File di GitHub berubah sejak panel ini dibuka (mungkin diubah orang lain). Menimpa akan menghapus perubahan itu. Lanjut?")) return;
+    const body = { message: "Update paket tour lewat admin (" + draft.length + " paket)", content: b64(out()), branch: c.b };
+    if (r) body.sha = r.sha;
+    const p = await fetch(c.url, { method: "PUT", headers: { ...c.H, "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    if (!p.ok) throw new Error("Gagal menyimpan (" + p.status + "). Pastikan token punya izin Contents: Read and write.");
+    base = JSON.stringify(draft); render();
+    say("Berhasil dipublikasikan. Website biasanya ikut berubah dalam 1 sampai 10 menit.", true);
+  } catch (e) { say("Gagal: " + e.message, false); }
+};
+</script>
+</body>
+</html>
