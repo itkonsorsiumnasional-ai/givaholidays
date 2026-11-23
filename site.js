@@ -339,24 +339,29 @@ function renderHeader(active){
   </header>`;
 }
 
+/* ============================================================
+   FOOTER ala Viandra Tour
+   Atas : brand | menu | kontak
+   Bawah: "Kantor Kami" (3 kantor + link Google Maps)
+   Pojok kanan bawah: tombol Sosial Media + Chat WhatsApp
+   ============================================================ */
 function renderFooter(){
+  const socials = [
+    ["Instagram", `https://instagram.com/${SITE.instagram}`, "@" + SITE.instagram],
+    ["TikTok",    `https://tiktok.com/@${SITE.tiktok}`,      "@" + SITE.tiktok],
+    ["Facebook",  `https://facebook.com/${SITE.facebook}`,   SITE.facebook]
+  ];
   return `
   <footer>
     <div class="wrap">
       <div class="foot-grid">
         <div>
           <a class="foot-brand" href="index.html"><img src="logo.png" alt="${SITE.name}" width="64" height="64"></a>
-          <p>Paket tour Malaysia, Singapore, dan Thailand untuk perjalanan yang nyaman dan terencana.</p>
+          <p>Paket tour Malaysia, Singapore, dan Thailand untuk perjalanan yang nyaman dan terencana. ${SITE.tagline}.</p>
         </div>
         <div>
           <h3>Menu</h3>
           <ul>${NAV.slice(1).map(([k,href,label]) => `<li><a href="${href}">${label}</a></li>`).join("")}</ul>
-        </div>
-        <div>
-          <h3>Kantor</h3>
-          <ul>
-            ${(SITE.kantor || []).map(k => `<li><strong>${k.tag}</strong><br>${k.alamat}<br><a href="${mapsLink(k.alamat)}" target="_blank" rel="noopener">Buka di Google Maps</a></li>`).join("")}
-          </ul>
         </div>
         <div>
           <h3>Kontak</h3>
@@ -371,9 +376,33 @@ function renderFooter(){
           </ul>
         </div>
       </div>
+
+      <div class="foot-offices">
+        <h3>Kantor Kami</h3>
+        <div class="foot-ogrid">
+          ${(SITE.kantor || []).map(k => `
+            <div class="foot-office">
+              <h4>${k.tag} ${k.nama}</h4>
+              <p>${k.alamat}</p>
+              <a class="foot-map" href="${mapsLink(k.alamat)}" target="_blank" rel="noopener">📍 Buka di Google Maps</a>
+            </div>`).join("")}
+        </div>
+      </div>
+
       <p class="copy">© ${new Date().getFullYear()} ${SITE.name}. Semua hak dilindungi.</p>
     </div>
   </footer>
+
+  <div class="sosmed" id="sosmed">
+    <div class="sosmed-menu" id="sosmedMenu" hidden>
+      ${socials.map(([n,href,label]) => `<a href="${href}" target="_blank" rel="noopener"><strong>${n}</strong><span>${label}</span></a>`).join("")}
+    </div>
+    <button type="button" class="sosmed-btn" id="sosmedBtn" aria-expanded="false" aria-controls="sosmedMenu" aria-label="Sosial Media">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>
+      <span>Sosial Media</span>
+    </button>
+  </div>
+
   <a class="wa-float" data-wa="Halo Giva Holidays, saya ingin bertanya tentang paket wisata." href="#" aria-label="Chat WhatsApp">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6A12 12 0 0 0 12 24c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.5zM12 21.9c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.9 9.9 0 0 1 2.1 12C2.1 6.5 6.5 2.1 12 2.1S21.9 6.5 21.9 12 17.5 21.9 12 21.9zm5.4-7.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.8-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5.3-.5c.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/></svg>
     <span>Chat WhatsApp</span>
@@ -398,5 +427,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const open = menu.classList.toggle("open");
       toggle.setAttribute("aria-expanded", open);
     });
+  }
+
+  // Tombol Sosial Media: buka/tutup daftar IG, TikTok, Facebook
+  const sBtn = document.getElementById("sosmedBtn");
+  const sMenu = document.getElementById("sosmedMenu");
+  if (sBtn && sMenu) {
+    const setOpen = open => { sMenu.hidden = !open; sBtn.setAttribute("aria-expanded", open); };
+    sBtn.addEventListener("click", e => { e.stopPropagation(); setOpen(sMenu.hidden); });
+    document.addEventListener("click", e => { if (!sMenu.hidden && !e.target.closest("#sosmed")) setOpen(false); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") setOpen(false); });
   }
 });
