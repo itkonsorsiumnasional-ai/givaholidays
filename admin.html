@@ -3,233 +3,574 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
-<title>Admin | Giva Holidays</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob: https://flagcdn.com; connect-src 'self' https://api.github.com; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>Admin Giva Holidays</title>
 <link rel="icon" href="logo.png">
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
 <style>
- body{background:var(--paper);padding:24px 0}
- .box{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:20px}
- .box h2{font-size:1.3rem;margin-bottom:10px}
- .small{color:var(--muted);font-size:.9rem;margin-bottom:10px}
- input,textarea,select{width:100%;padding:10px 12px;border:2px solid #d3def2;border-radius:12px;font:inherit}
- textarea{min-height:240px;font-family:ui-monospace,Consolas,monospace;font-size:.85rem}
- .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px}
- .row>input,.row>select{flex:1;min-width:140px}
- .btn{padding:10px 18px;font-size:.95rem}
- .danger{background:#c0392b;color:#fff}
- table{width:100%;border-collapse:collapse;font-size:.92rem}
- th,td{text-align:left;padding:8px;border-bottom:1px solid #e3ecfb;vertical-align:middle}
- #msg{padding:12px 16px;border-radius:12px;margin-bottom:16px;white-space:pre-wrap;display:none}
- #msg.ok{display:block;background:#e6f7ec;color:#14532d}
- #msg.err{display:block;background:#fdeaea;color:#7f1d1d}
- .dirty{color:#b36b00;font-weight:800}
- #lock{max-width:420px;margin:12vh auto}
+:root{--b9:#06306f;--b7:#0a4aa6;--b5:#1f6fe0;--ac:#ffa800;--acs:#fff1d1;--bg:#f5f8fd;--ink:#16213a;--mut:#5b6678;--ok:#1faa59;--bad:#c62828;--ln:#dbe4f3}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding-bottom:84px}
+[hidden]{display:none!important}
+button,input,select,textarea{font:inherit;color:inherit}
+.btn{border:0;border-radius:10px;padding:9px 16px;font-weight:700;cursor:pointer;background:var(--b7);color:#fff}
+.btn:hover{filter:brightness(1.1)}.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.ac{background:var(--ac);color:var(--b9)}.btn.ok{background:var(--ok)}.btn.bad{background:var(--bad)}
+.btn.ghost{background:#fff;color:var(--b7);border:1.5px solid var(--b7)}
+.btn.sm{padding:5px 11px;font-size:.85rem;border-radius:8px}
+input[type=text],input[type=password],input[type=search],textarea,select{width:100%;border:1.5px solid var(--ln);border-radius:10px;padding:9px 12px;background:#fff}
+textarea{font-family:ui-monospace,Consolas,monospace;font-size:.85rem;min-height:260px;resize:vertical}
+label{font-weight:700;font-size:.9rem;display:block;margin:12px 0 4px}
+.wrap{width:min(1100px,94%);margin:0 auto}
+/* lock */
+#lock{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,var(--b9),var(--b7) 60%,var(--b5));padding:20px}
+.lockbox{background:#fff;border-radius:18px;padding:30px;width:min(380px,100%);text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+.lockbox img{width:84px;height:84px;object-fit:contain}
+.lockbox h1{margin:8px 0 4px;color:var(--b9);font-size:1.4rem}
+.lockbox p{margin:0 0 14px;color:var(--mut);font-size:.9rem}
+#lockMsg{min-height:1.4em;color:var(--bad);font-weight:700;font-size:.9rem;margin-top:10px}
+/* header */
+header.top{background:var(--b9);color:#fff;position:sticky;top:0;z-index:30}
+.top .wrap{display:flex;align-items:center;gap:12px;padding:10px 0}
+.top img{width:40px;height:40px;object-fit:contain;background:#fff;border-radius:10px;padding:2px}
+.top b{font-size:1.05rem}.top small{display:block;color:#ffd37a;font-size:.72rem;letter-spacing:.12em}
+.top .sp{flex:1}
+.tabs{background:#fff;border-bottom:1px solid var(--ln);position:sticky;top:60px;z-index:20}
+.tabs .wrap{display:flex;gap:4px;overflow:auto}
+.tabs button{border:0;background:none;padding:12px 16px;font-weight:700;color:var(--mut);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+.tabs button.on{color:var(--b7);border-color:var(--ac)}
+main{padding:22px 0}
+.panel{background:#fff;border-radius:16px;box-shadow:0 6px 20px rgba(6,48,111,.08);padding:20px;margin-bottom:18px}
+.panel h2{margin:0 0 6px;color:var(--b9);font-size:1.2rem}
+.panel p.h{margin:0 0 12px;color:var(--mut);font-size:.92rem}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.row .grow{flex:1;min-width:180px}
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.pc{border:1.5px solid var(--ln);border-radius:14px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+.pc.sel{border-color:var(--b5);box-shadow:0 0 0 3px rgba(31,111,224,.15)}
+.pc .cv{height:64px;position:relative}
+.pc .cv input{position:absolute;left:10px;top:10px;width:20px;height:20px}
+.pc .bd{padding:12px 14px;flex:1}
+.pc h3{margin:0 0 4px;font-size:1rem;color:var(--b9)}
+.pc .m{color:var(--mut);font-size:.85rem}
+.pc .pr{font-weight:800;color:var(--b7);margin-top:6px}
+.pc .ft{display:flex;gap:6px;padding:0 14px 12px;flex-wrap:wrap}
+.bg{display:inline-block;font-size:.68rem;font-weight:800;border-radius:999px;padding:2px 8px;margin-right:4px;background:var(--acs);color:var(--b9)}
+.bg.new{background:#dff5e7;color:#157a3e}.bg.mod{background:#e3ecfc;color:var(--b7)}.bg.feat{background:var(--ac)}
+/* table */
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--ln);vertical-align:top}
+th{background:#f0f5fd;color:var(--b9)}
+.err{color:var(--bad);font-weight:700}.wr{color:#a86a00}.okc{color:var(--ok);font-weight:700}
+/* bar */
+#bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:2px solid var(--ac);box-shadow:0 -6px 20px rgba(0,0,0,.1);z-index:40}
+#bar .wrap{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 0}
+#bar .st{flex:1;min-width:160px;font-weight:700;font-size:.9rem}
+#bar .st.d{color:#a86a00}
+#toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--b9);color:#fff;padding:10px 18px;border-radius:12px;z-index:60;max-width:90vw;font-weight:700}
+#toast.bad{background:var(--bad)}
+dialog{border:0;border-radius:16px;padding:20px;width:min(720px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(6,48,111,.5)}
+pre{background:#f0f5fd;border-radius:10px;padding:12px;overflow:auto;font-size:.8rem}
+ol li,ul li{margin:4px 0}
+.note{background:var(--acs);border-radius:10px;padding:10px 14px;font-size:.9rem;margin:10px 0}
 </style>
 </head>
-<body>
+<body data-page="admin">
 
-<div class="wrap">
- <div id="lock" class="box">
-  <h2>Admin Giva Holidays</h2>
-  <p class="small">Masukkan passcode.</p>
-  <input id="pass" type="password" autocomplete="current-password" placeholder="Passcode">
-  <div class="row"><button class="btn btn-wa" id="login">Masuk</button></div>
-  <p id="lockmsg" class="small" style="margin-top:10px;color:#c0392b"></p>
-  <details style="margin-top:14px"><summary class="small">Ganti passcode</summary>
-   <p class="small">Ketik passcode baru, salin hasilnya, tempel ke <code>ADMIN_HASH</code> di admin.html.</p>
-   <input id="newpass" type="text" placeholder="Passcode baru"><input id="newhash" readonly placeholder="Hash muncul di sini" style="margin-top:8px">
-  </details>
- </div>
+<section id="lock">
+  <form class="lockbox" id="lockForm" autocomplete="off">
+    <img src="logo.png" alt="Giva Holidays">
+    <h1>Admin Giva Holidays</h1>
+    <p>Masukkan kode akses untuk membuka panel.</p>
+    <input type="password" id="pass" placeholder="Kode akses" autocomplete="current-password" required>
+    <button class="btn ac" style="width:100%;margin-top:12px" id="lockBtn">Masuk</button>
+    <div id="lockMsg" role="alert"></div>
+  </form>
+</section>
 
- <div id="app" hidden>
-  <h1 style="margin-bottom:6px">Panel Admin Paket Tour</h1>
-  <p class="small">Perubahan hanya berupa draf di browser ini sampai kamu klik <b>Publikasikan</b> atau mengunggah file <code>packages.json</code> sendiri.</p>
-  <div id="msg"></div>
+<div id="app" hidden>
+  <header class="top"><div class="wrap">
+    <img src="logo.png" alt=""><div><b>Giva Holidays</b><small>PANEL ADMIN</small></div>
+    <span class="sp"></span>
+    <button class="btn ghost sm" id="undoBtn" disabled>↶ Urungkan</button>
+    <button class="btn ac sm" id="lockNow">🔒 Kunci</button>
+  </div></header>
+  <nav class="tabs"><div class="wrap" id="tabs">
+    <button data-t="pkg" class="on">Paket Tour</button>
+    <button data-t="imp">Impor / Hapus JSON</button>
+    <button data-t="gh">GitHub &amp; Ekspor</button>
+    <button data-t="help">Panduan</button>
+  </div></nav>
 
-  <div class="box">
-   <h2>1. Paket saat ini <span id="dirty" class="dirty"></span></h2>
-   <div style="overflow-x:auto"><table><thead><tr><th>Nama</th><th>Slug</th><th>Durasi</th><th>Harga</th><th>Berangkat</th><th></th></tr></thead><tbody id="list"></tbody></table></div>
-   <div class="row"><button class="btn btn-outline" id="reset">Batalkan semua perubahan</button></div>
-  </div>
+  <main class="wrap">
+    <!-- PAKET -->
+    <section data-p="pkg">
+      <div class="panel">
+        <div class="row">
+          <div class="grow"><input type="search" id="q" placeholder="Cari paket (nama, tujuan, slug)…"></div>
+          <button class="btn ghost sm" id="selAll">Pilih semua</button>
+          <button class="btn bad sm" id="delSel" disabled>Hapus terpilih (<span id="selN">0</span>)</button>
+        </div>
+        <p class="h" id="count" style="margin:10px 0 0"></p>
+      </div>
+      <div class="grid" id="grid"></div>
+      <div class="panel" id="hiddenBox" hidden style="margin-top:18px">
+        <h2>Paket bawaan yang disembunyikan</h2>
+        <p class="h">Paket ini tidak tampil di website. Pulihkan kalau ingin ditampilkan lagi.</p>
+        <div id="hiddenList"></div>
+      </div>
+    </section>
 
-  <div class="box">
-   <h2>2. Tambah / ubah paket (tempel JSON)</h2>
-   <p class="small">Boleh satu paket <code>{...}</code> atau banyak <code>[{...},{...}]</code>. Slug yang sudah ada akan diperbarui, yang baru akan ditambahkan. Tombol Edit di tabel memuat paket ke sini.</p>
-   <textarea id="json" spellcheck="false" placeholder='[{ "slug": "...", "name": "...", ... }]'></textarea>
-   <div class="row">
-    <select id="mode"><option value="merge">Gabung (tambah / perbarui)</option><option value="replace">Ganti SEMUA paket dengan JSON ini</option></select>
-    <button class="btn btn-wa" id="apply">Terapkan ke draf</button>
-    <button class="btn btn-outline" id="tpl">Isi contoh template</button>
-   </div>
-  </div>
+    <!-- IMPOR -->
+    <section data-p="imp" hidden>
+      <div class="panel">
+        <h2>Tempel kode JSON</h2>
+        <p class="h">Satu kali tempel untuk banyak paket sekaligus. Bisa berupa daftar paket <code>[ {…}, {…} ]</code>, satu paket <code>{…}</code>, atau <code>{"packages":[…]}</code>. Untuk menghapus, cukup daftar slug: <code>["bali-5d4n","dubai-6d5n"]</code>.</p>
+        <textarea id="json" spellcheck="false" placeholder='[{"slug":"contoh-paket","name":"…","dest":"…","type":"…","days":5,"nights":4, …}]'></textarea>
+        <div class="row" style="margin-top:8px">
+          <input type="file" id="file" accept=".json,application/json,.txt" style="width:auto">
+          <button class="btn ghost sm" id="sampleBtn">Isi contoh JSON</button>
+          <button class="btn ghost sm" id="clearJson">Kosongkan</button>
+        </div>
+        <label>Mode</label>
+        <select id="mode">
+          <option value="add">Tambah / timpa (paket dengan slug sama diganti, lainnya tetap)</option>
+          <option value="replace">Ganti SEMUA paket dengan isi JSON ini (yang tidak ada di JSON dihapus)</option>
+          <option value="del">Hapus paket yang slug-nya ada di JSON ini</option>
+        </select>
+        <div style="margin-top:12px"><button class="btn" id="check">Periksa JSON</button></div>
+      </div>
+      <div class="panel" id="prev" hidden>
+        <h2>Hasil pemeriksaan</h2>
+        <p class="h" id="prevSum"></p>
+        <div style="overflow:auto"><table><thead><tr><th><input type="checkbox" id="prevAll" checked></th><th>Slug</th><th>Nama</th><th>Hari</th><th>Harga</th><th>Status</th></tr></thead><tbody id="prevBody"></tbody></table></div>
+        <div class="row" style="margin-top:12px">
+          <button class="btn ok" id="apply">Terapkan yang dicentang</button>
+          <span class="h" style="margin:0">Setelah diterapkan, klik <b>Publish</b> di bawah agar tampil di website.</span>
+        </div>
+      </div>
+    </section>
 
-  <div class="box">
-   <h2>3. Simpan</h2>
-   <div class="row">
-    <button class="btn btn-outline" id="dl">Unduh packages.json</button>
-    <button class="btn btn-outline" id="cp">Salin JSON</button>
-   </div>
-   <p class="small" style="margin-top:12px">Atau publikasikan langsung ke GitHub. Token hanya disimpan di memori halaman ini dan hilang saat halaman ditutup.</p>
-   <div class="row">
-    <input id="owner" placeholder="Pemilik repo"><input id="repo" placeholder="Nama repo"><input id="branch" placeholder="Branch">
-   </div>
-   <div class="row"><input id="tok" type="password" autocomplete="off" placeholder="GitHub fine-grained token (Contents: Read and write, hanya repo ini)"></div>
-   <div class="row">
-    <button class="btn btn-primary" id="pub">Publikasikan ke GitHub</button>
-    <button class="btn btn-outline" id="pull">Muat data terbaru dari GitHub</button>
-   </div>
-  </div>
- </div>
+    <!-- GITHUB -->
+    <section data-p="gh" hidden>
+      <div class="panel">
+        <h2>Sambung ke GitHub</h2>
+        <p class="h">Repo: <b id="repoTxt"></b>. Token hanya disimpan di memori halaman ini dan hilang saat panel dikunci atau ditutup.</p>
+        <label>Token GitHub (fine-grained, izin Contents: Read and write)</label>
+        <input type="password" id="token" placeholder="github_pat_…" autocomplete="off">
+        <div class="row" style="margin-top:10px">
+          <button class="btn" id="pull">Tes &amp; tarik data dari GitHub</button>
+          <button class="btn ok" id="pub2">Publish ke website</button>
+        </div>
+        <div class="note">Cara buat token: GitHub → Settings → Developer settings → Fine-grained tokens → <i>Generate new token</i> → Repository access: <b>Only select repositories → givaholidays</b> → Permissions: <b>Contents = Read and write</b> → masa berlaku pendek (mis. 30 hari).</div>
+      </div>
+      <div class="panel">
+        <h2>Ekspor packages.json</h2>
+        <p class="h">Cadangan atau untuk diunggah manual ke repo.</p>
+        <div class="row"><button class="btn ghost" id="copyJ">Salin JSON</button><button class="btn ghost" id="dlJ">Unduh packages.json</button></div>
+        <textarea id="outJson" readonly style="margin-top:10px;min-height:180px"></textarea>
+      </div>
+    </section>
+
+    <!-- PANDUAN -->
+    <section data-p="help" hidden>
+      <div class="panel">
+        <h2>Panduan singkat</h2>
+        <ol>
+          <li>Buka tab <b>Impor / Hapus JSON</b>, tempel kode JSON paket, pilih mode, klik <b>Periksa JSON</b>.</li>
+          <li>Cek hasilnya (merah = ditolak, kuning = diperbaiki otomatis), lalu <b>Terapkan</b>.</li>
+          <li>Isi token di tab <b>GitHub &amp; Ekspor</b> sekali, lalu klik <b>Publish</b> di bar bawah. Website ter-update dalam ±1 menit.</li>
+          <li>Salah hapus? Klik <b>Urungkan</b> sebelum Publish. Paket bawaan yang dihapus bisa dipulihkan.</li>
+        </ol>
+        <h2 style="margin-top:18px">Format satu paket</h2>
+<pre>{
+ "slug": "bangkok-pattaya-5d4n",      // huruf kecil, angka, tanda minus
+ "name": "Bangkok Pattaya 5D4N",
+ "dest": "Thailand", "type": "Internasional",
+ "days": 5, "nights": 4, "flags": ["th"],
+ "color": "#0a3d91,#1f6fe0", "price": 6350000, "tag": "Promo",
+ "image": "img/bangkok.jpg", "featured": false,
+ "items": ["Hotel bintang 4", "Makan sesuai program"],
+ "departures": ["2026-12-20*", "2027-01-10"],      // * = high season
+ "departuresCompact": {"2027-02": "7 14 21*"},       // alternatif ringkas
+ "daily": ["2027-03-01", "2027-03-31"],              // berangkat setiap hari
+ "itinerary": [["Hari 1 - Jakarta", "Berkumpul di bandara…", "Hotel"]],
+ "bonus": [], "included": [], "excluded": [], "costs": [], "terms": []
+}</pre>
+        <h2 style="margin-top:18px">Keamanan</h2>
+        <ul>
+          <li>Kode akses di halaman ini hanya penghalang awal. <b>Pengaman sebenarnya adalah token GitHub</b>: tanpa token, tidak ada yang bisa mengubah website.</li>
+          <li>Gunakan token yang hanya untuk repo ini, masa berlaku pendek, dan jangan dibagikan.</li>
+          <li>Panel terkunci otomatis setelah 15 menit tanpa aktivitas, dan salah kode berkali-kali akan dikunci sementara.</li>
+          <li>Semua isi JSON dibersihkan (tanda &lt; &gt; dibuang, gambar/warna/tanggal diperiksa) sebelum tampil di website.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <div id="bar"><div class="wrap">
+    <span class="st" id="st">Memuat…</span>
+    <button class="btn ghost sm" id="pull2">Tarik dari GitHub</button>
+    <button class="btn ac" id="pub">Publish</button>
+  </div></div>
 </div>
+
+<dialog id="dlg"><h2 style="margin-top:0" id="dlgT">Edit paket</h2>
+  <textarea id="dlgJ" spellcheck="false" style="min-height:340px"></textarea>
+  <div id="dlgE" class="err" style="margin-top:6px"></div>
+  <div class="row" style="margin-top:10px;justify-content:flex-end"><button class="btn ghost" id="dlgX">Batal</button><button class="btn ok" id="dlgS">Simpan</button></div>
+</dialog>
+<div id="toast" hidden></div>
 
 <script src="site.js"></script>
 <script>
-/* ===== PENGATURAN ===== */
-const ADMIN_HASH = "4a29e9ebdf9f94ccdc4847adf0b23e615c9ccc07b3fd897ec26ad22adcea76f7"; // passcode awal: Giva#Admin2026 (GANTI!)
+(() => {
+"use strict";
+// frame-buster
+if (window.top !== window.self) { try { window.top.location = window.self.location; } catch (e) { document.documentElement.innerHTML = ""; } }
+
+const AUTH = { salt: "95ec85766f96f0c69d3feae2db861b6d", hash: "37ab156a794dbd0667259d08314d68a4c3c30c3243dccc320c8ce06d5ec25511", iter: 250000 };
 const GH = { owner: "itkonsorsiumnasional-ai", repo: "givaholidays", branch: "main", file: "packages.json" };
-
+const IDLE_MS = 15 * 60 * 1000;
 const $ = id => document.getElementById(id);
-const sha256 = async s => [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)))].map(b => b.toString(16).padStart(2, "0")).join("");
-const clone = o => JSON.parse(JSON.stringify(o));
-const say = (t, ok) => { const m = $("msg"); m.className = ok ? "ok" : "err"; m.textContent = t; scrollTo(0, 0); };
 
-/* ===== LOGIN (penghalang tampilan; kunci sebenarnya adalah token GitHub) ===== */
-let fails = 0, lockedUntil = 0;
-$("newpass").addEventListener("input", async e => { $("newhash").value = e.target.value ? await sha256(e.target.value) : ""; });
-async function login(){
-  if (Date.now() < lockedUntil) { $("lockmsg").textContent = "Terlalu banyak percobaan. Tunggu sebentar."; return; }
-  if (await sha256($("pass").value) === ADMIN_HASH) { $("lock").hidden = true; $("app").hidden = false; init(); }
-  else { if (++fails >= 5) { lockedUntil = Date.now() + 30000; fails = 0; } $("lockmsg").textContent = "Passcode salah."; }
-}
-$("login").onclick = login;
-$("pass").addEventListener("keydown", e => { if (e.key === "Enter") login(); });
-
-/* ===== DATA ===== */
-let draft = [], base = "";
-const dirty = () => JSON.stringify(draft) !== base;
-const TEMPLATE = [{
-  slug: "contoh-paket-4d3n", name: "Contoh Paket 4D3N", dest: "Thailand", type: "Thailand", days: 4, nights: 3,
-  price: 6000000, tag: "", image: "", color: "#0a3d91,#1f6fe0",
-  items: ["Poin singkat 1", "Poin singkat 2"],
-  schedule: ["Keberangkatan setiap Rabu", "Meeting point: Bandara"],
-  departuresCompact: { "2027-01": "6 13 20 27", "2027-03": "6* 7* 17" },
-  bonus: [], itinerary: [["DAY 1 : JUDUL HARI", "Isi kegiatan hari 1.", "Nama hotel"], ["DAY 2 : TRANSFER OUT", "Isi kegiatan hari 2.", ""]],
-  included: ["Tiket pesawat pulang pergi"], excluded: ["Bagasi pesawat"], costs: ["DP Rp 500.000 per orang"], terms: ["Syarat 1"]
-}];
-const LISTS = ["items", "schedule", "bonus", "included", "excluded", "costs", "terms"];
-
-function validate(p, i){
-  const L = "Paket #" + (i + 1) + (p && p.slug ? " (" + p.slug + ")" : "") + ": ", e = [];
-  if (!p || typeof p !== "object" || Array.isArray(p)) return [L + "harus berupa objek { }"];
-  if (!/^[a-z0-9-]+$/.test(p.slug || "")) e.push(L + "slug wajib, hanya huruf kecil, angka, dan strip");
-  ["name", "dest", "type"].forEach(k => { if (!p[k] || typeof p[k] !== "string") e.push(L + k + " wajib berupa teks"); });
-  ["days", "nights"].forEach(k => { if (!Number.isInteger(p[k]) || p[k] < 1) e.push(L + k + " harus angka bulat"); });
-  if (p.price != null && typeof p.price !== "number") e.push(L + "price harus angka (tanpa titik) atau null");
-  LISTS.forEach(k => { if (p[k] != null && !(Array.isArray(p[k]) && p[k].every(x => typeof x === "string"))) e.push(L + k + " harus daftar teks"); });
-  if (!Array.isArray(p.items) || !p.items.length) e.push(L + "items wajib, minimal 1 poin");
-  if (!Array.isArray(p.itinerary) || !p.itinerary.length || p.itinerary.some(d => !Array.isArray(d) || typeof d[0] !== "string" || typeof d[1] !== "string"))
-    e.push(L + "itinerary wajib: daftar [judul hari, isi, hotel]");
-  if (p.departures && !(Array.isArray(p.departures) && p.departures.every(s => /^\d{4}-\d{2}-\d{2}\*?$/.test(s)))) e.push(L + "departures harus daftar tanggal YYYY-MM-DD (tambah * untuk high season)");
-  if (p.daily && !(Array.isArray(p.daily) && p.daily.length === 2)) e.push(L + 'daily harus ["tanggal-mulai","tanggal-akhir"]');
-  if (p.departuresCompact && typeof p.departuresCompact !== "object") e.push(L + "departuresCompact harus objek bulan: tanggal");
+/* ---------- helpers ---------- */
+function el(tag, attrs, ...kids) {
+  const e = document.createElement(tag);
+  for (const k in (attrs || {})) {
+    if (k === "class") e.className = attrs[k];
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), attrs[k]);
+    else if (attrs[k] !== false && attrs[k] != null) e.setAttribute(k, attrs[k]);
+  }
+  kids.flat().forEach(c => { if (c != null) e.append(c.nodeType ? c : document.createTextNode(String(c))); });
   return e;
 }
-function normalize(p){
-  const q = clone(p);
-  if (q.departuresCompact) { q.departures = sched(q.departuresCompact); delete q.departuresCompact; }
-  LISTS.forEach(k => { if (!q[k]) q[k] = []; });
-  q.tag = q.tag || ""; q.color = q.color || "#0a3d91,#1f6fe0"; if (q.price === undefined) q.price = null;
-  if (!q.image) delete q.image;
-  return q;
+let toastT;
+function toast(msg, bad) {
+  const t = $("toast"); t.textContent = msg; t.className = bad ? "bad" : ""; t.hidden = false;
+  clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 3800);
 }
+const hex = b => [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join("");
+const unhex = s => new Uint8Array(s.match(/../g).map(h => parseInt(h, 16)));
+const rp = n => typeof n === "number" ? "Rp " + n.toLocaleString("id-ID") : "Hubungi kami";
+const clone = o => JSON.parse(JSON.stringify(o));
+const builtinSlugs = new Set(BUILTIN_PACKAGES.map(p => p.slug));
 
-/* ===== TAMPILAN ===== */
-function render(){
-  const tb = $("list"); tb.textContent = "";
-  draft.forEach(p => {
-    const tr = tb.insertRow();
-    [p.name, p.slug, p.days + "H" + p.nights + "M", p.price ? rupiah(p.price) : "Hubungi kami", p.daily ? "Setiap hari" : (p.departures || []).length + " tanggal"].forEach(v => { tr.insertCell().textContent = v; });
-    const c = tr.insertCell();
-    const ed = document.createElement("button"); ed.className = "btn btn-outline"; ed.textContent = "Edit";
-    ed.onclick = () => { $("json").value = JSON.stringify(p, null, 2); $("json").scrollIntoView({ behavior: "smooth" }); };
-    const del = document.createElement("button"); del.className = "btn danger"; del.textContent = "Hapus"; del.style.marginLeft = "6px";
-    del.onclick = () => { if (confirm('Hapus paket "' + p.name + '" dari draf?')) { draft = draft.filter(x => x.slug !== p.slug); render(); say('Paket "' + p.name + '" dihapus dari draf. Klik Publikasikan agar tampil di website.', true); } };
-    c.append(ed, del);
-  });
-  if (!draft.length) tb.insertRow().insertCell().textContent = "Belum ada paket.";
-  $("dirty").textContent = dirty() ? "(ada perubahan yang belum dipublikasikan)" : "";
-}
-function init(){
-  draft = clone(PACKAGES); base = JSON.stringify(draft);
-  $("owner").value = GH.owner; $("repo").value = GH.repo; $("branch").value = GH.branch;
-  render();
-}
-addEventListener("beforeunload", e => { if (!$("app").hidden && dirty()) { e.preventDefault(); e.returnValue = ""; } });
+/* ---------- login (PBKDF2 + penguncian bertahap) ---------- */
+const LK = "gv_admin_lock";
+const getLock = () => { try { return JSON.parse(localStorage.getItem(LK)) || { n: 0, until: 0 }; } catch (e) { return { n: 0, until: 0 }; } };
+const setLock = v => { try { localStorage.setItem(LK, JSON.stringify(v)); } catch (e) {} };
+let memLock = { n: 0, until: 0 };
 
-/* ===== AKSI ===== */
-$("tpl").onclick = () => { $("json").value = JSON.stringify(TEMPLATE, null, 2); };
-$("reset").onclick = () => { if (!dirty() || confirm("Batalkan semua perubahan di draf?")) { draft = JSON.parse(base); render(); say("Draf dikembalikan.", true); } };
-$("apply").onclick = () => {
-  let data;
-  try { data = JSON.parse($("json").value); } catch (err) { return say("JSON tidak valid: " + err.message, false); }
-  const arr = Array.isArray(data) ? data : [data];
-  if (!arr.length) return say("JSON kosong.", false);
-  const errs = arr.flatMap(validate);
-  const slugs = arr.map(p => p && p.slug); if (new Set(slugs).size !== slugs.length) errs.push("Ada slug ganda di dalam JSON.");
-  if (errs.length) return say("Tidak diterapkan. Perbaiki dulu:\n- " + errs.join("\n- "), false);
-  const items = arr.map(normalize);
-  if ($("mode").value === "replace") {
-    if (!confirm("Semua paket sekarang akan diganti dengan " + items.length + " paket dari JSON ini. Lanjut?")) return;
-    draft = items; say("Draf diganti: " + items.length + " paket.", true);
-  } else {
-    let add = 0, upd = 0;
-    items.forEach(p => { const i = draft.findIndex(x => x.slug === p.slug); if (i >= 0) { draft[i] = p; upd++; } else { draft.push(p); add++; } });
-    say("Draf diperbarui: " + add + " paket ditambahkan, " + upd + " diperbarui. Klik Publikasikan agar tampil di website.", true);
+async function derive(pw) {
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveBits"]);
+  return hex(await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt: unhex(AUTH.salt), iterations: AUTH.iter }, key, 256));
+}
+const safeEq = (a, b) => { if (a.length !== b.length) return false; let r = 0; for (let i = 0; i < a.length; i++) r |= a.charCodeAt(i) ^ b.charCodeAt(i); return r === 0; };
+
+$("lockForm").addEventListener("submit", async ev => {
+  ev.preventDefault();
+  const msg = $("lockMsg"), L = Object.assign({}, getLock(), memLock.until > getLock().until ? memLock : {});
+  const now = Date.now();
+  if (L.until > now) { msg.textContent = "Terkunci sementara. Coba lagi dalam " + Math.ceil((L.until - now) / 1000) + " detik."; return; }
+  if (!window.crypto || !crypto.subtle) { msg.textContent = "Browser tidak mendukung. Buka lewat https."; return; }
+  $("lockBtn").disabled = true; msg.textContent = "";
+  let ok = false;
+  try { ok = safeEq(await derive($("pass").value), AUTH.hash); } catch (e) {}
+  $("lockBtn").disabled = false;
+  if (ok) { memLock = { n: 0, until: 0 }; setLock({ n: 0, until: 0 }); $("pass").value = ""; openApp(); return; }
+  const n = (L.n || 0) + 1;
+  const wait = n >= 5 ? Math.min(3600, 30 * Math.pow(2, n - 5)) * 1000 : 0;
+  memLock = { n, until: wait ? now + wait : 0 }; setLock(memLock);
+  msg.textContent = wait ? "Terlalu banyak percobaan. Terkunci " + Math.round(wait / 1000) + " detik." : "Kode akses salah (" + n + "/5).";
+  $("pass").value = "";
+});
+
+/* ---------- state ---------- */
+let data, saved = "", sha = null, token = "", hist = [], sel = new Set(), prevRows = [];
+const norm = d => {
+  const o = { packages: [], hidden: [], docs: [] };
+  if (Array.isArray(d)) { o.packages = d.map(cleanPackage).filter(Boolean); o.hidden = [...builtinSlugs].filter(s => !o.packages.some(p => p.slug === s)); return o; }
+  if (d && typeof d === "object") {
+    if (Array.isArray(d.packages)) o.packages = d.packages.map(cleanPackage).filter(Boolean);
+    if (Array.isArray(d.hidden)) o.hidden = [...new Set(d.hidden.filter(s => typeof s === "string" && builtinSlugs.has(s)))];
+    if (Array.isArray(d.docs)) o.docs = d.docs.map(cleanDoc).filter(Boolean);
   }
-  render();
+  return o;
 };
-const out = () => JSON.stringify(draft, null, 2);
-$("dl").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([out()], { type: "application/json" })); a.download = "packages.json"; a.click(); };
-$("cp").onclick = async () => { try { await navigator.clipboard.writeText(out()); say("JSON disalin.", true); } catch (e) { say("Gagal menyalin. Pakai tombol Unduh.", false); } };
-
-/* ===== GITHUB ===== */
-const b64 = s => { const u = new TextEncoder().encode(s); let r = ""; for (let i = 0; i < u.length; i += 8192) r += String.fromCharCode(...u.subarray(i, i + 8192)); return btoa(r); };
-const unb64 = s => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\s/g, "")), c => c.charCodeAt(0)));
-const cfg = () => {
-  const o = $("owner").value.trim(), r = $("repo").value.trim(), b = $("branch").value.trim() || "main", t = $("tok").value.trim();
-  if (!o || !r || !t) { say("Isi pemilik repo, nama repo, dan token GitHub.", false); return null; }
-  return { url: `https://api.github.com/repos/${o}/${r}/contents/${GH.file}`, b, H: { Authorization: "Bearer " + t, Accept: "application/vnd.github+json" } };
-};
-async function remote(c){
-  const g = await fetch(c.url + "?ref=" + encodeURIComponent(c.b), { headers: c.H, cache: "no-store" });
-  if (g.status === 404) return null;
-  if (!g.ok) throw new Error("GitHub menolak (" + g.status + "). Cek token, nama repo, dan izin Contents.");
-  const j = await g.json(); return { sha: j.sha, data: JSON.parse(unb64(j.content)) };
+const effective = () => resolvePackages(data) || clone(BUILTIN_PACKAGES);
+const ser = () => JSON.stringify(data, null, 1) + "\n";
+function commit(next, label) {
+  hist.push(JSON.stringify(data)); if (hist.length > 30) hist.shift();
+  data = next; sel.clear(); refresh();
 }
-$("pull").onclick = async () => {
-  const c = cfg(); if (!c) return;
-  try {
-    const r = await remote(c); if (!r) return say("packages.json belum ada di GitHub. Publikasikan dulu untuk membuatnya.", false);
-    if (dirty() && !confirm("Perubahan draf akan ditimpa data dari GitHub. Lanjut?")) return;
-    draft = r.data; base = JSON.stringify(draft); render(); say("Data terbaru dimuat dari GitHub.", true);
-  } catch (e) { say("Gagal: " + e.message, false); }
+function refresh() {
+  renderGrid(); renderHidden(); $("outJson").value = ser();
+  const dirty = ser() !== saved;
+  $("st").textContent = dirty ? "● Ada perubahan yang belum dipublish" : "✓ Sama dengan yang ada di GitHub / bawaan";
+  $("st").className = "st" + (dirty ? " d" : "");
+  $("undoBtn").disabled = !hist.length;
+}
+$("undoBtn").onclick = () => { if (!hist.length) return; data = JSON.parse(hist.pop()); sel.clear(); refresh(); toast("Dibatalkan satu langkah"); };
+
+/* ---------- daftar paket ---------- */
+function badge(p) {
+  const b = [];
+  if (p.featured) b.push(el("span", { class: "bg feat" }, "UNGGULAN"));
+  if (!builtinSlugs.has(p.slug)) b.push(el("span", { class: "bg new" }, "BARU"));
+  else if (data.packages.some(x => x.slug === p.slug)) b.push(el("span", { class: "bg mod" }, "DIUBAH"));
+  else b.push(el("span", { class: "bg" }, "BAWAAN"));
+  return b;
+}
+function renderGrid() {
+  const q = $("q").value.trim().toLowerCase(), list = effective();
+  const shown = list.filter(p => !q || (p.name + " " + p.dest + " " + p.slug).toLowerCase().includes(q));
+  const g = $("grid"); g.replaceChildren();
+  shown.forEach(p => {
+    const bgc = p.color.split(",");
+    const cb = el("input", { type: "checkbox", "aria-label": "Pilih " + p.name, onchange: e => { e.target.checked ? sel.add(p.slug) : sel.delete(p.slug); updSel(); e.target.closest(".pc").classList.toggle("sel", e.target.checked); } });
+    cb.checked = sel.has(p.slug);
+    g.append(el("div", { class: "pc" + (cb.checked ? " sel" : "") },
+      el("div", { class: "cv", style: "background:linear-gradient(135deg," + bgc[0] + "," + (bgc[1] || bgc[0]) + ")" }, cb),
+      el("div", { class: "bd" }, el("div", null, badge(p)), el("h3", null, p.name),
+        el("div", { class: "m" }, p.dest + " · " + p.days + "H" + p.nights + "M · " + p.type),
+        el("div", { class: "m" }, (p.departures ? p.departures.length + " tanggal" : p.daily ? "Harian" : "Tanggal belum diisi") + " · " + p.slug),
+        el("div", { class: "pr" }, rp(p.price))),
+      el("div", { class: "ft" },
+        el("button", { class: "btn ghost sm", onclick: () => editPkg(p.slug) }, "Edit"),
+        el("button", { class: "btn ghost sm", onclick: () => toggleFeat(p.slug) }, p.featured ? "Lepas unggulan" : "Jadikan unggulan"),
+        el("button", { class: "btn bad sm", onclick: () => delPkgs([p.slug]) }, "Hapus"))));
+  });
+  $("count").textContent = shown.length + " dari " + list.length + " paket tampil di website";
+  updSel();
+}
+function updSel() { $("selN").textContent = sel.size; $("delSel").disabled = !sel.size; }
+function renderHidden() {
+  const box = $("hiddenBox"), l = $("hiddenList"); l.replaceChildren();
+  const hid = data.hidden.filter(s => builtinSlugs.has(s));
+  box.hidden = !hid.length;
+  hid.forEach(s => {
+    const b = BUILTIN_PACKAGES.find(p => p.slug === s);
+    l.append(el("div", { class: "row", style: "margin:6px 0" }, el("span", { class: "grow" }, b.name + " (" + s + ")"),
+      el("button", { class: "btn ghost sm", onclick: () => commit(Object.assign(clone(data), { hidden: data.hidden.filter(x => x !== s) })) }, "Pulihkan")));
+  });
+}
+$("q").oninput = renderGrid;
+$("selAll").onclick = () => { const q = $("q").value.trim().toLowerCase(); effective().filter(p => !q || (p.name + " " + p.dest + " " + p.slug).toLowerCase().includes(q)).forEach(p => sel.add(p.slug)); renderGrid(); };
+$("delSel").onclick = () => delPkgs([...sel]);
+
+function removeSlugs(d, slugs) {
+  const s = new Set(slugs);
+  d.packages = d.packages.filter(p => !s.has(p.slug));
+  slugs.forEach(x => { if (builtinSlugs.has(x) && !d.hidden.includes(x)) d.hidden.push(x); });
+  return d;
+}
+function delPkgs(slugs) {
+  if (!slugs.length) return;
+  const names = slugs.map(s => (effective().find(p => p.slug === s) || { name: s }).name);
+  if (!confirm("Hapus " + slugs.length + " paket?\n\n" + names.slice(0, 12).join("\n") + (names.length > 12 ? "\n…" : "") + "\n\nBisa diurungkan sebelum Publish.")) return;
+  commit(removeSlugs(clone(data), slugs)); toast(slugs.length + " paket dihapus");
+}
+function toggleFeat(slug) {
+  const p = clone(effective().find(x => x.slug === slug)); if (!p) return;
+  if (p.featured) delete p.featured; else p.featured = true;
+  upsert(p);
+}
+function upsert(p) {
+  const d = clone(data); const i = d.packages.findIndex(x => x.slug === p.slug);
+  if (i >= 0) d.packages[i] = p; else d.packages.push(p);
+  d.hidden = d.hidden.filter(s => s !== p.slug); commit(d);
+}
+
+/* ---------- edit satu paket ---------- */
+let editing = null;
+function editPkg(slug) {
+  editing = slug; $("dlgT").textContent = "Edit paket: " + slug;
+  $("dlgJ").value = JSON.stringify(effective().find(p => p.slug === slug), null, 1); $("dlgE").textContent = ""; $("dlg").showModal();
+}
+$("dlgX").onclick = () => $("dlg").close();
+$("dlgS").onclick = () => {
+  let o; try { o = JSON.parse($("dlgJ").value); } catch (e) { $("dlgE").textContent = "JSON tidak valid: " + e.message; return; }
+  const r = checkOne(o);
+  if (r.err.length) { $("dlgE").textContent = r.err.join("; "); return; }
+  if (r.pkg.slug !== editing) { $("dlgE").textContent = "Slug tidak boleh diubah di sini (ini akan membuat paket baru, gunakan tab Impor)."; return; }
+  upsert(r.pkg); $("dlg").close(); toast("Paket disimpan");
 };
-$("pub").onclick = async () => {
-  const c = cfg(); if (!c) return;
-  if (!draft.length && !confirm("Draf kosong: SEMUA paket akan hilang dari website. Lanjut?")) return;
-  try {
-    const r = await remote(c);
-    if (r && JSON.stringify(r.data) !== base && !confirm("File di GitHub berubah sejak panel ini dibuka (mungkin diubah orang lain). Menimpa akan menghapus perubahan itu. Lanjut?")) return;
-    const body = { message: "Update paket tour lewat admin (" + draft.length + " paket)", content: b64(out()), branch: c.b };
-    if (r) body.sha = r.sha;
-    const p = await fetch(c.url, { method: "PUT", headers: { ...c.H, "Content-Type": "application/json" }, body: JSON.stringify(body) });
-    if (!p.ok) throw new Error("Gagal menyimpan (" + p.status + "). Pastikan token punya izin Contents: Read and write.");
-    base = JSON.stringify(draft); render();
-    say("Berhasil dipublikasikan. Website biasanya ikut berubah dalam 1 sampai 10 menit.", true);
-  } catch (e) { say("Gagal: " + e.message, false); }
+
+/* ---------- validasi & impor ---------- */
+function checkOne(p) {
+  const err = [], warn = [];
+  if (!p || typeof p !== "object" || Array.isArray(p)) return { err: ["bukan objek paket"], warn, pkg: null };
+  if (typeof p.slug !== "string" || !/^[a-z0-9-]{1,80}$/.test(p.slug)) err.push("slug harus huruf kecil/angka/minus");
+  ["name", "dest", "type"].forEach(k => { if (typeof p[k] !== "string" || !p[k].trim()) err.push(k + " wajib diisi"); });
+  if (!(parseInt(p.days, 10) > 0)) err.push("days harus angka > 0");
+  if (!(parseInt(p.nights, 10) >= 0)) err.push("nights harus angka ≥ 0");
+  const q = err.length ? null : cleanPackage(p);
+  if (!err.length && !q) err.push("data tidak lengkap");
+  if (q) {
+    if (p.image && !q.image) warn.push("gambar tidak valid, dibuang (pakai nama file mis. img/bali.jpg)");
+    if (p.color && q.color !== p.color) warn.push("warna tidak valid, pakai warna biru bawaan");
+    if (typeof p.price !== "number") warn.push("harga kosong → tampil 'Hubungi kami'");
+    const dn = (p.departures || []).length - (q.departures || []).length;
+    if (dn > 0) warn.push(dn + " tanggal keberangkatan tidak valid, dibuang");
+    if (p.itinerary && !q.itinerary) warn.push("itinerary tidak valid, dibuang");
+    if (/[<>`]/.test(JSON.stringify(p))) warn.push("tanda < > ` dibersihkan");
+    if (!q.departures && !q.daily) warn.push("belum ada tanggal keberangkatan");
+  }
+  return { err, warn, pkg: q };
+}
+function parseInput(txt) {
+  const d = JSON.parse(txt);
+  if (Array.isArray(d)) return d;
+  if (d && Array.isArray(d.packages)) return d.packages;
+  if (d && typeof d === "object") return [d];
+  throw new Error("format tidak dikenali");
+}
+$("sampleBtn").onclick = () => {
+  $("json").value = JSON.stringify([{
+    slug: "contoh-bali-5d4n", name: "Bali Holiday 5D4N", dest: "Bali", type: "Domestik", days: 5, nights: 4,
+    color: "#0a3d91,#1f6fe0", price: 4850000, tag: "Promo",
+    items: ["Hotel bintang 4", "Tiket pesawat PP", "Makan sesuai program"],
+    departures: ["2027-01-10", "2027-01-24*"],
+    itinerary: [["Hari 1 - Jakarta - Bali", "Berkumpul di bandara, terbang ke Bali.", "Hotel bintang 4"]],
+    included: ["Tiket pesawat PP"], excluded: ["Pengeluaran pribadi"], terms: ["Harga per orang, min. 2 peserta"]
+  }], null, 1);
 };
+$("clearJson").onclick = () => { $("json").value = ""; $("prev").hidden = true; };
+$("file").onchange = e => {
+  const f = e.target.files[0]; if (!f) return;
+  if (f.size > 2e6) { toast("File terlalu besar (maks 2 MB)", true); return; }
+  const r = new FileReader(); r.onload = () => { $("json").value = String(r.result); toast("File dimuat, klik Periksa JSON"); }; r.readAsText(f);
+};
+$("check").onclick = () => {
+  const mode = $("mode").value, txt = $("json").value.trim();
+  if (!txt) { toast("Tempel JSON dulu", true); return; }
+  let raw; try { raw = parseInput(txt); } catch (e) { toast("JSON tidak valid: " + e.message, true); return; }
+  if (!raw.length) { toast("JSON kosong", true); return; }
+  if (raw.length > 300) { toast("Maksimal 300 paket sekali impor", true); return; }
+  const cur = new Set(effective().map(p => p.slug)), seen = new Map();
+  prevRows = raw.map((p, i) => {
+    if (mode === "del") {
+      const s = typeof p === "string" ? p : p && p.slug;
+      const ex = cur.has(s);
+      return { slug: String(s), name: ex ? effective().find(x => x.slug === s).name : "-", err: ex ? [] : ["slug tidak ditemukan"], warn: [], status: "HAPUS", on: ex, del: true };
+    }
+    const r = checkOne(p);
+    if (r.pkg) { if (seen.has(r.pkg.slug)) { r.warn.push("slug dobel, yang terakhir dipakai"); prevRowsDup(seen.get(r.pkg.slug)); } seen.set(r.pkg.slug, i); }
+    return { slug: r.pkg ? r.pkg.slug : (p && p.slug) || "#" + (i + 1), name: r.pkg ? r.pkg.name : (p && p.name) || "-", days: r.pkg && r.pkg.days + "H" + r.pkg.nights + "M", price: r.pkg && rp(r.pkg.price),
+      err: r.err, warn: r.warn, pkg: r.pkg, status: r.pkg ? (cur.has(r.pkg.slug) && mode !== "replace" ? "TIMPA" : "BARU") : "DITOLAK", on: !!r.pkg };
+  });
+  function prevRowsDup(i) { prevRows[i].on = false; prevRows[i].warn.push("diabaikan (dobel)"); }
+  const ok = prevRows.filter(r => !r.err.length).length, bad = prevRows.length - ok;
+  const tb = $("prevBody"); tb.replaceChildren();
+  prevRows.forEach(r => {
+    const cb = el("input", { type: "checkbox", onchange: e => r.on = e.target.checked }); cb.checked = r.on; cb.disabled = !!r.err.length;
+    tb.append(el("tr", null, el("td", null, cb), el("td", null, r.slug), el("td", null, r.name), el("td", null, r.days || ""), el("td", null, r.price || ""),
+      el("td", null, el("span", { class: r.err.length ? "err" : "okc" }, r.status), r.err.map(x => el("div", { class: "err" }, "✖ " + x)), r.warn.map(x => el("div", { class: "wr" }, "⚠ " + x)))));
+  });
+  $("prevSum").textContent = ok + " valid, " + bad + " ditolak. Mode: " + $("mode").selectedOptions[0].textContent.split(" (")[0];
+  $("prevAll").checked = true; $("prev").hidden = false; $("prev").scrollIntoView({ behavior: "smooth" });
+};
+$("prevAll").onchange = e => { prevRows.forEach(r => { if (!r.err.length) r.on = e.target.checked; }); [...$("prevBody").querySelectorAll("input")].forEach((c, i) => { if (!prevRows[i].err.length) c.checked = prevRows[i].on; }); };
+$("apply").onclick = () => {
+  const rows = prevRows.filter(r => r.on && !r.err.length), mode = $("mode").value;
+  if (!rows.length) { toast("Tidak ada yang dicentang", true); return; }
+  const d = clone(data);
+  if (mode === "del") {
+    if (!confirm("Hapus " + rows.length + " paket?")) return;
+    removeSlugs(d, rows.map(r => r.slug));
+  } else if (mode === "replace") {
+    if (!confirm("Ganti SEMUA paket di website dengan " + rows.length + " paket dari JSON ini? Paket lain akan dihapus (bisa diurungkan sebelum Publish).")) return;
+    d.packages = rows.map(r => r.pkg);
+    d.hidden = [...builtinSlugs].filter(s => !d.packages.some(p => p.slug === s));
+  } else {
+    rows.forEach(r => { const i = d.packages.findIndex(x => x.slug === r.slug); if (i >= 0) d.packages[i] = r.pkg; else d.packages.push(r.pkg); d.hidden = d.hidden.filter(s => s !== r.slug); });
+  }
+  commit(d); $("prev").hidden = true; $("json").value = "";
+  toast(rows.length + " paket diproses. Klik Publish agar tampil di website.");
+  tab("pkg");
+};
+
+/* ---------- GitHub ---------- */
+const API = "https://api.github.com/repos/" + GH.owner + "/" + GH.repo + "/contents/" + GH.file;
+const hdr = () => ({ Authorization: "Bearer " + token, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" });
+const b64enc = s => { const b = new TextEncoder().encode(s); let x = ""; for (let i = 0; i < b.length; i += 8192) x += String.fromCharCode.apply(null, b.subarray(i, i + 8192)); return btoa(x); };
+const b64dec = s => { const x = atob(s.replace(/\s/g, "")); return new TextDecoder().decode(Uint8Array.from(x, c => c.charCodeAt(0))); };
+function needToken() { token = $("token").value.trim(); if (!token) { tab("gh"); toast("Isi token GitHub dulu", true); $("token").focus(); return false; } return true; }
+async function pull(silent) {
+  if (!needToken()) return;
+  try {
+    const r = await fetch(API + "?ref=" + encodeURIComponent(GH.branch), { headers: hdr(), cache: "no-store" });
+    if (r.status === 404) { sha = null; toast("packages.json belum ada di GitHub. Akan dibuat saat Publish."); return; }
+    if (r.status === 401 || r.status === 403) { toast("Token ditolak (cek izin Contents dan repo)", true); return; }
+    if (!r.ok) { toast("GitHub error " + r.status, true); return; }
+    const j = await r.json(); sha = j.sha;
+    if (j.encoding !== "base64" || !j.content) { toast("File terlalu besar untuk ditarik lewat API", true); return; }
+    const d = norm(JSON.parse(b64dec(j.content)));
+    if (ser() !== JSON.stringify(d, null, 1) + "\n") hist.push(JSON.stringify(data));
+    data = d; saved = ser(); sel.clear(); refresh(); if (!silent) toast("Data dari GitHub dimuat");
+  } catch (e) { toast("Gagal terhubung: " + e.message, true); }
+}
+async function publish() {
+  if (!needToken()) return;
+  const body = ser();
+  if (body.length > 900000) { toast("packages.json terlalu besar (>900 KB)", true); return; }
+  if (!confirm("Publish " + effective().length + " paket ke website sekarang?")) return;
+  $("pub").disabled = $("pub2").disabled = true;
+  try {
+    const g = await fetch(API + "?ref=" + encodeURIComponent(GH.branch), { headers: hdr(), cache: "no-store" });
+    let cur = null;
+    if (g.ok) cur = (await g.json()).sha; else if (g.status !== 404) { toast(g.status === 401 || g.status === 403 ? "Token ditolak" : "GitHub error " + g.status, true); return; }
+    if (sha && cur && sha !== cur) { toast("File di GitHub sudah berubah oleh orang lain. Klik 'Tarik dari GitHub' dulu.", true); return; }
+    const put = { message: "Update paket via admin (" + effective().length + " paket)", content: b64enc(body), branch: GH.branch };
+    if (cur) put.sha = cur;
+    const r = await fetch(API, { method: "PUT", headers: Object.assign({ "Content-Type": "application/json" }, hdr()), body: JSON.stringify(put) });
+    if (!r.ok) { toast("Publish gagal (" + r.status + ")", true); return; }
+    sha = (await r.json()).content.sha; saved = body; refresh();
+    toast("✓ Terpublish. Website ter-update dalam ±1 menit.");
+  } catch (e) { toast("Gagal: " + e.message, true); }
+  finally { $("pub").disabled = $("pub2").disabled = false; }
+}
+$("pull").onclick = $("pull2").onclick = () => pull();
+$("pub").onclick = $("pub2").onclick = publish;
+$("copyJ").onclick = async () => { try { await navigator.clipboard.writeText(ser()); toast("JSON disalin"); } catch (e) { $("outJson").select(); toast("Tekan Ctrl+C untuk menyalin"); } };
+$("dlJ").onclick = () => { const a = el("a", { href: URL.createObjectURL(new Blob([ser()], { type: "application/json" })), download: "packages.json" }); document.body.append(a); a.click(); a.remove(); };
+$("repoTxt").textContent = GH.owner + "/" + GH.repo + " (" + GH.branch + ")";
+
+/* ---------- tab, kunci, idle ---------- */
+function tab(t) {
+  document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.t === t));
+  document.querySelectorAll("[data-p]").forEach(s => s.hidden = s.dataset.p !== t);
+  window.scrollTo(0, 0);
+}
+$("tabs").addEventListener("click", e => { const b = e.target.closest("button[data-t]"); if (b) tab(b.dataset.t); });
+
+let idle;
+function resetIdle() { clearTimeout(idle); idle = setTimeout(lockUp, IDLE_MS); }
+["click", "keydown", "mousemove", "touchstart"].forEach(ev => document.addEventListener(ev, () => { if (!$("app").hidden) resetIdle(); }, { passive: true }));
+function lockUp() {
+  clearTimeout(idle); token = ""; $("token").value = ""; $("json").value = ""; $("dlgJ").value = "";
+  try { $("dlg").close(); } catch (e) {}
+  data = null; hist = []; sel.clear(); prevRows = [];
+  ["grid", "hiddenList", "prevBody"].forEach(i => $(i).replaceChildren()); $("outJson").value = ""; $("prev").hidden = true;
+  $("app").hidden = true; $("lock").hidden = false;
+}
+$("lockNow").onclick = lockUp;
+window.addEventListener("beforeunload", e => { if (data && ser() !== saved) { e.preventDefault(); e.returnValue = ""; } });
+
+function openApp() {
+  $("lock").hidden = true; $("app").hidden = false;
+  data = norm(null); saved = ser(); hist = [];
+  tab("pkg"); refresh(); resetIdle();
+  fetch("packages.json", { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(d => {
+    if (d && data && !hist.length) { data = norm(d); saved = ser(); refresh(); }
+  }).catch(() => {});
+  toast("Selamat datang. Untuk Publish, isi token di tab GitHub.");
+}
+})();
 </script>
 </body>
 </html>
