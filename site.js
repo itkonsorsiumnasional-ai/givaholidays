@@ -323,7 +323,7 @@ function packageCard(p){
 }
 
 /* ============================================================
-   RUNNING TEXT (di atas header, tampil di semua halaman)
+   RUNNING TEXT (tampil di tempat <div id="site-ticker"></div> berada)
    Ubah isi teksnya di daftar ini saja.
    ============================================================ */
 const TICKER = [
@@ -354,7 +354,7 @@ function renderTicker(){
 function renderHeader(active){
   const links = NAV.map(([k,href,label]) =>
     `<li><a href="${href}"${k===active ? ' class="active" aria-current="page"' : ""}>${label}</a></li>`).join("");
-  return renderTicker() + `
+  return `
   <header>
     <div class="wrap nav">
       <a href="index.html" class="brand" aria-label="${SITE.name}">
@@ -444,6 +444,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const f = document.getElementById("site-footer");
   if (h) h.outerHTML = renderHeader(active);
   if (f) f.outerHTML = renderFooter();
+  const t = document.getElementById("site-ticker");   // running text: taruh <div id="site-ticker"></div> di halaman yang membutuhkan
+  if (t) t.outerHTML = renderTicker();
 
   document.querySelectorAll("[data-wa]").forEach(a => {
     a.href = wa(a.dataset.wa); a.target = "_blank"; a.rel = "noopener";
