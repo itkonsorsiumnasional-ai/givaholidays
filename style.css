@@ -39,6 +39,8 @@
 
   /* Running text (biru logo, teks putih) */
   .ticker{background:var(--blue-700);color:#fff;overflow:hidden;white-space:nowrap;font-weight:700;font-size:.95rem}
+  .finder + .ticker{margin-top:32px}
+  .ticker + .packages{padding-top:56px}
   .ticker-track{display:flex;width:max-content;animation:ticker-run 45s linear infinite}
   .ticker:hover .ticker-track{animation-play-state:paused}
   .ticker ul{display:flex;flex:none;list-style:none}
