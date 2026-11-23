@@ -17,12 +17,12 @@
 <style>
 /* Hero: foto latar penuh di posisi tengah + lapisan biru tipis supaya teks tetap terbaca.
    Foto: hero-foto.jpg (taruh di folder yang sama dengan index.html).
-   Mau menggeser fokus foto? Ubah "center center" (kiri-kanan, atas-bawah).
-   Contoh: "center 75%" untuk menampilkan rombongan di bagian bawah foto. */
+   Posisi foto: "center 90%" = tengah kiri-kanan, 90% ke bawah (supaya rombongan terlihat).
+   Angka kedua kecil = foto bergeser ke atas, besar = bergeser ke bawah. */
 .hero.hero-foto{
   background:
     linear-gradient(100deg,rgba(6,28,80,.78) 0%,rgba(6,28,80,.55) 45%,rgba(6,28,80,.25) 100%),
-    url("hero-foto.jpg") center center / cover no-repeat #13216b;
+    url("hero-foto.jpg") center 90% / cover no-repeat #13216b;
 }
 .hero.hero-foto::after{display:none}
 .hero.hero-foto .hero-logo{box-shadow:0 20px 50px rgba(0,0,0,.35)}
@@ -32,7 +32,7 @@
   .hero.hero-foto{
     background:
       linear-gradient(180deg,rgba(6,28,80,.72) 0%,rgba(6,28,80,.60) 100%),
-      url("hero-foto.jpg") center center / cover no-repeat #13216b;
+      url("hero-foto.jpg") center 85% / cover no-repeat #13216b;
   }
 }
 </style>
