@@ -322,10 +322,39 @@ function packageCard(p){
     </article>`;
 }
 
+/* ============================================================
+   RUNNING TEXT (di atas header, tampil di semua halaman)
+   Ubah isi teksnya di daftar ini saja.
+   ============================================================ */
+const TICKER = [
+  "Selamat Datang di Giva Holidays",
+  "Explore The World",
+  "Tour Thailand",
+  "Tour Malaysia",
+  "Tour Singapore",
+  "Tour China",
+  "Bisa Berangkat Dari Kota Lainnya",
+  "Keberangkatan Setiap Hari Rabu",
+  "Hotel Nyaman",
+  "Tour Guide Profesional",
+  "Booking Sekarang"
+];
+
+function renderTicker(){
+  const list = TICKER.map(t => `<li>${t}</li>`).join("");
+  return `
+  <div class="ticker" role="region" aria-label="Informasi Giva Holidays">
+    <div class="ticker-track">
+      <ul>${list}</ul>
+      <ul aria-hidden="true">${list}</ul>
+    </div>
+  </div>`;
+}
+
 function renderHeader(active){
   const links = NAV.map(([k,href,label]) =>
     `<li><a href="${href}"${k===active ? ' class="active" aria-current="page"' : ""}>${label}</a></li>`).join("");
-  return `
+  return renderTicker() + `
   <header>
     <div class="wrap nav">
       <a href="index.html" class="brand" aria-label="${SITE.name}">
