@@ -6,9 +6,9 @@
 const SITE = {
   name: "Giva Holidays",
   tagline: "Explore The World",
-  waNumber: "62XXXXXXXXXXX",          // GANTI: format 62..., tanpa tanda + atau 0 di depan
-  waDisplay: "08XX-XXXX-XXXX",        // GANTI: nomor yang tampil di website
-  email: "",                           // isi jika ada, kosong = tidak ditampilkan
+  waNumber: "6287811555722",          // GANTI: format 62..., tanpa tanda + atau 0 di depan
+  waDisplay: "0878-1155-5722",        // GANTI: nomor yang tampil di website
+  email: "givaholidays@gmail.com",                           // isi jika ada, kosong = tidak ditampilkan
   instagram: "givaholidays",
   tiktok: "givaholidays",
   facebook: "givaholidays",
