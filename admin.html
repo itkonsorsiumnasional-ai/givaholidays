@@ -274,7 +274,7 @@ const GH = { owner: "itkonsorsiumnasional-ai", repo: "givaholidays", branch: "ma
 const IDLE_MS = 15 * 60 * 1000;
 const COLORS = ["#0a3d91,#1f6fe0", "#06306f,#0a4aa6", "#0a4aa6,#ffa800", "#1f6fe0,#5aa2ff", "#06306f,#1f6fe0"];
 const DOC_CATS = ["Malaysia", "Singapore", "Thailand", "Keberangkatan", "Lainnya"];
-const IMG_RE = /^img\/[A-Za-z0-9._-]{1,120}\.(jpg|jpeg|png|webp)$/i;
+const IMG_RE = /^(?!.*\.\.)(?!.*\/\/)[A-Za-z0-9_-][A-Za-z0-9_\-.\/]{0,150}\.(png|jpe?g|webp|gif)$/i;
 const $ = id => document.getElementById(id);
 
 /* ---------- helpers ---------- */
@@ -372,7 +372,7 @@ function removeSlugs(d, slugs) {
 function imgSrc(p) {
   const path = stripSlash(p);
   if (pendingUrl[path]) return pendingUrl[path];
-  return /^\/?img\/[A-Za-z0-9._-]+$/.test(String(p || "")) ? String(p) : "";
+  return IMG_RE.test(path) ? path : "";
 }
 
 /* ---------- daftar paket ---------- */
@@ -474,8 +474,8 @@ function viewForm() {
       <label for="fImg">Gambar / brosur paket <small>(opsional)</small></label>
       <input id="fImg" type="file" accept="image/*">
       <img class="imgprev" id="fPrev" ${im ? `src="${esc(im)}"` : 'style="display:none"'} alt="">
-      <label for="fImgPath">Atau nama file gambar yang sudah ada di repo <small>(mis. img/bali.jpg)</small></label>
-      <input id="fImgPath" type="text" value="${esc(curImg)}" placeholder="img/nama-file.jpg">
+      <label for="fImgPath">Atau nama file gambar yang sudah ada di repo <small>(mis. tour-bali.png)</small></label>
+      <input id="fImgPath" type="text" value="${esc(curImg)}" placeholder="nama-file.jpg">
       <p class="hint">Kalau Anda memilih file di atas, nama file ini diabaikan.</p>
       <label for="fItems">Poin singkat di kartu <small>(satu poin per baris, 2 sampai 4 poin)</small></label>
       <textarea id="fItems" placeholder="Hotel bintang 4&#10;Makan sesuai program">${esc((p.items || []).join("\n"))}</textarea>
@@ -602,7 +602,7 @@ function saveForm() {
   if (e.mode === "daily" && (!e.daily[0] || !e.daily[1] || e.daily[1] < e.daily[0])) problems.push("Periode berangkat setiap hari belum benar.");
   if (e.mode === "dates" && !e.deps.length) problems.push("Belum ada tanggal keberangkatan. Tambah tanggal atau pilih mode lain.");
   const imgPath = stripSlash(v("fImgPath"));
-  if (!e.img && imgPath && !IMG_RE.test(imgPath)) problems.push("Nama file gambar tidak valid. Contoh: img/bali.jpg");
+  if (!e.img && imgPath && !IMG_RE.test(imgPath)) problems.push("Nama file gambar tidak valid. Contoh: tour-bali.png");
   const itDays = e.itin.filter(d => d.t.trim() || d.x.trim());
   if (itDays.some(d => !d.t.trim() || !d.x.trim())) problems.push("Ada hari itinerary yang judul atau isinya masih kosong.");
   if (problems.length) {
@@ -767,7 +767,7 @@ function parseImport() {
     if (r.pkg) {
       const q = cleanPackage(r.pkg);
       if (!q) { r.errs.push("data tidak lolos pemeriksaan"); r.pkg = null; }
-      else { if (r.pkg.image && q.image !== r.pkg.image) r.warns.push("gambar tidak valid, dibuang (pakai nama file mis. img/bali.jpg)"); r.pkg = q; }
+      else { if (r.pkg.image && q.image !== r.pkg.image) r.warns.push("gambar tidak valid, dibuang (pakai nama file mis. tour-bali.png)"); r.pkg = q; }
     }
     if (r.pkg) {
       const hasSlug = raw && typeof raw === "object" && pick(raw, ["slug"]);
