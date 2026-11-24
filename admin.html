@@ -14,14 +14,19 @@
 body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding-bottom:84px}
 [hidden]{display:none!important}
 button,input,select,textarea{font:inherit;color:inherit}
-.btn{border:0;border-radius:10px;padding:9px 16px;font-weight:700;cursor:pointer;background:var(--b7);color:#fff}
+h1,h2,h3{color:var(--b9);line-height:1.2}
+.btn{border:0;border-radius:10px;padding:9px 16px;font-weight:700;cursor:pointer;background:var(--b7);color:#fff;text-decoration:none;display:inline-block;text-align:center}
 .btn:hover{filter:brightness(1.1)}.btn:disabled{opacity:.5;cursor:not-allowed}
 .btn.ac{background:var(--ac);color:var(--b9)}.btn.ok{background:var(--ok)}.btn.bad{background:var(--bad)}
 .btn.ghost{background:#fff;color:var(--b7);border:1.5px solid var(--b7)}
+.btn.dng{background:#fff;color:var(--bad);border:1.5px solid #f0b4b4}
+.btn.dng:hover{background:var(--bad);color:#fff}
 .btn.sm{padding:5px 11px;font-size:.85rem;border-radius:8px}
-input[type=text],input[type=password],input[type=search],textarea,select{width:100%;border:1.5px solid var(--ln);border-radius:10px;padding:9px 12px;background:#fff}
-textarea{font-family:ui-monospace,Consolas,monospace;font-size:.85rem;min-height:260px;resize:vertical}
+input[type=text],input[type=password],input[type=search],input[type=number],input[type=date],textarea,select{width:100%;border:1.5px solid var(--ln);border-radius:10px;padding:9px 12px;background:#fff}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--b5)}
+textarea{font-family:ui-monospace,Consolas,monospace;font-size:.85rem;min-height:92px;resize:vertical}
 label{font-weight:700;font-size:.9rem;display:block;margin:12px 0 4px}
+label small{font-weight:600;color:var(--mut)}
 .wrap{width:min(1100px,94%);margin:0 auto}
 /* lock */
 #lock{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,var(--b9),var(--b7) 60%,var(--b5));padding:20px}
@@ -42,28 +47,45 @@ header.top{background:var(--b9);color:#fff;position:sticky;top:0;z-index:30}
 .tabs button.on{color:var(--b7);border-color:var(--ac)}
 main{padding:22px 0}
 .panel{background:#fff;border-radius:16px;box-shadow:0 6px 20px rgba(6,48,111,.08);padding:20px;margin-bottom:18px}
-.panel h2{margin:0 0 6px;color:var(--b9);font-size:1.2rem}
+.panel h2{margin:0 0 6px;font-size:1.2rem}
 .panel p.h{margin:0 0 12px;color:var(--mut);font-size:.92rem}
 .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .row .grow{flex:1;min-width:180px}
+.fr{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.hint{color:var(--mut);font-size:.88rem;margin:4px 0 0}
+.errbox{background:#fdecee;color:var(--bad);border-radius:12px;padding:12px 16px;font-weight:700;margin:14px 0}
 /* cards */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
 .pc{border:1.5px solid var(--ln);border-radius:14px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
-.pc.sel{border-color:var(--b5);box-shadow:0 0 0 3px rgba(31,111,224,.15)}
-.pc .cv{height:64px;position:relative}
-.pc .cv input{position:absolute;left:10px;top:10px;width:20px;height:20px}
+.pc.hid{opacity:.6}
+.pc .cv{height:110px;position:relative;overflow:hidden}
+.pc .cv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top}
 .pc .bd{padding:12px 14px;flex:1}
-.pc h3{margin:0 0 4px;font-size:1rem;color:var(--b9)}
+.pc h3{margin:6px 0 4px;font-size:1rem}
 .pc .m{color:var(--mut);font-size:.85rem}
 .pc .pr{font-weight:800;color:var(--b7);margin-top:6px}
 .pc .ft{display:flex;gap:6px;padding:0 14px 12px;flex-wrap:wrap}
 .bg{display:inline-block;font-size:.68rem;font-weight:800;border-radius:999px;padding:2px 8px;margin-right:4px;background:var(--acs);color:var(--b9)}
-.bg.new{background:#dff5e7;color:#157a3e}.bg.mod{background:#e3ecfc;color:var(--b7)}.bg.feat{background:var(--ac)}
+.bg.new{background:#dff5e7;color:#157a3e}.bg.mod{background:#e3ecfc;color:var(--b7)}.bg.feat{background:var(--ac)}.bg.hd{background:#555;color:#fff}
 /* table */
 table{width:100%;border-collapse:collapse;font-size:.88rem}
 th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--ln);vertical-align:top}
 th{background:#f0f5fd;color:var(--b9)}
 .err{color:var(--bad);font-weight:700}.wr{color:#a86a00}.okc{color:var(--ok);font-weight:700}
+.imp{border:1.5px solid var(--ln);border-radius:12px;padding:10px 14px;margin:8px 0;background:#fbfcff}
+.imp.bad{border-color:#f0b4b4}
+.imp .dh{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+/* form */
+.day{border:1.5px solid var(--ln);border-radius:14px;padding:12px 14px;margin:10px 0;background:#fbfcff}
+.day .dh{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.seg{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.seg label{margin:0;display:flex;align-items:center;gap:6px;border:1.5px solid var(--ln);border-radius:999px;padding:6px 14px;cursor:pointer;font-weight:700;background:#fff}
+.seg input{width:auto;margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{background:var(--bg);border:1.5px solid var(--ln);border-radius:999px;padding:3px 6px 3px 12px;font-weight:700;font-size:.88rem}
+.chip.pk{border-color:#f0b4b4;color:var(--bad)}
+.chip button{border:0;background:transparent;cursor:pointer;font-size:1rem;color:var(--mut);padding:0 6px}
+.imgprev{max-width:260px;max-height:200px;border-radius:12px;display:block;margin-top:10px;border:1px solid var(--ln)}
 /* bar */
 #bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:2px solid var(--ac);box-shadow:0 -6px 20px rgba(0,0,0,.1);z-index:40}
 #bar .wrap{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 0}
@@ -71,9 +93,8 @@ th{background:#f0f5fd;color:var(--b9)}
 #bar .st.d{color:#a86a00}
 #toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--b9);color:#fff;padding:10px 18px;border-radius:12px;z-index:60;max-width:90vw;font-weight:700}
 #toast.bad{background:var(--bad)}
-dialog{border:0;border-radius:16px;padding:20px;width:min(720px,94vw);box-shadow:0 20px 60px rgba(0,0,0,.35)}
-dialog::backdrop{background:rgba(6,48,111,.5)}
 pre{background:#f0f5fd;border-radius:10px;padding:12px;overflow:auto;font-size:.8rem}
+code{background:#f0f5fd;border-radius:6px;padding:1px 6px;font-size:.9em}
 ol li,ul li{margin:4px 0}
 .doc{border:1.5px solid var(--ln);border-radius:14px;overflow:hidden;background:#fff}
 .doc img{width:100%;height:150px;object-fit:cover;display:block;background:#eef3fb}
@@ -101,11 +122,11 @@ ol li,ul li{margin:4px 0}
     <button class="btn ghost sm" id="undoBtn" disabled>↶ Urungkan</button>
     <button class="btn ac sm" id="lockNow">🔒 Kunci</button>
   </div></header>
-  <nav class="tabs"><div class="wrap" id="tabs">
-    <button data-t="pkg" class="on">Paket Tour</button>
-    <button data-t="imp">Impor / Hapus JSON</button>
+  <nav class="tabs" id="nav"><div class="wrap" id="tabs">
+    <button data-t="pkg" class="on">Paket Wisata</button>
+    <button data-t="imp">Impor / Ekspor JSON</button>
     <button data-t="dok">Dokumentasi</button>
-    <button data-t="gh">GitHub &amp; Ekspor</button>
+    <button data-t="gh">GitHub</button>
     <button data-t="help">Panduan</button>
   </div></nav>
 
@@ -114,47 +135,59 @@ ol li,ul li{margin:4px 0}
     <section data-p="pkg">
       <div class="panel">
         <div class="row">
+          <button class="btn" id="addPkg">+ Tambah paket baru</button>
+          <button class="btn ghost" id="goImp">Impor dari JSON</button>
           <div class="grow"><input type="search" id="q" placeholder="Cari paket (nama, tujuan, slug)…"></div>
-          <button class="btn ghost sm" id="selAll">Pilih semua</button>
-          <button class="btn bad sm" id="delSel" disabled>Hapus terpilih (<span id="selN">0</span>)</button>
         </div>
         <p class="h" id="count" style="margin:10px 0 0"></p>
       </div>
       <div class="grid" id="grid"></div>
-      <div class="panel" id="hiddenBox" hidden style="margin-top:18px">
-        <h2>Paket bawaan yang disembunyikan</h2>
-        <p class="h">Paket ini tidak tampil di website. Pulihkan kalau ingin ditampilkan lagi.</p>
-        <div id="hiddenList"></div>
-      </div>
     </section>
 
-    <!-- IMPOR -->
+    <!-- IMPOR / EKSPOR -->
     <section data-p="imp" hidden>
       <div class="panel">
-        <h2>Tempel kode JSON</h2>
-        <p class="h">Satu kali tempel untuk banyak paket sekaligus. Bisa berupa daftar paket <code>[ {…}, {…} ]</code>, satu paket <code>{…}</code>, atau <code>{"packages":[…]}</code>. Untuk menghapus, cukup daftar slug: <code>["bali-5d4n","dubai-6d5n"]</code>.</p>
-        <textarea id="json" spellcheck="false" placeholder='[{"slug":"contoh-paket","name":"…","dest":"…","type":"…","days":5,"nights":4, …}]'></textarea>
-        <div class="row" style="margin-top:8px">
-          <input type="file" id="file" accept=".json,application/json,.txt" style="width:auto">
-          <button class="btn ghost sm" id="sampleBtn">Isi contoh JSON</button>
-          <button class="btn ghost sm" id="clearJson">Kosongkan</button>
-        </div>
+        <h2>Impor paket dari JSON</h2>
+        <p class="h">Tempel kode JSON atau pilih file <code>.json</code>. Bisa berupa satu paket, daftar paket, atau <code>{"packages":[…]}</code>. Yang wajib hanya <b>name</b>, <b>dest</b>, dan <b>days</b>. Anda bisa memeriksa hasilnya dulu sebelum disimpan.</p>
+        <label for="impFile">Pilih file JSON</label>
+        <input type="file" id="impFile" accept=".json,.txt,application/json,text/plain">
+        <label for="impText">Atau tempel kode JSON di sini</label>
+        <textarea id="impText" style="min-height:220px" spellcheck="false" placeholder='{ "packages": [ { "name": "Tour Vietnam 5D4N", … } ] }'></textarea>
         <label>Mode</label>
-        <select id="mode">
-          <option value="add">Tambah / timpa (paket dengan slug sama diganti, lainnya tetap)</option>
-          <option value="replace">Ganti SEMUA paket dengan isi JSON ini (yang tidak ada di JSON dihapus)</option>
-          <option value="del">Hapus paket yang slug-nya ada di JSON ini</option>
-        </select>
-        <div style="margin-top:12px"><button class="btn" id="check">Periksa JSON</button></div>
-      </div>
-      <div class="panel" id="prev" hidden>
-        <h2>Hasil pemeriksaan</h2>
-        <p class="h" id="prevSum"></p>
-        <div style="overflow:auto"><table><thead><tr><th><input type="checkbox" id="prevAll" checked></th><th>Slug</th><th>Nama</th><th>Hari</th><th>Harga</th><th>Status</th></tr></thead><tbody id="prevBody"></tbody></table></div>
-        <div class="row" style="margin-top:12px">
-          <button class="btn ok" id="apply">Terapkan yang dicentang</button>
-          <span class="h" style="margin:0">Setelah diterapkan, klik <b>Publish</b> di bawah agar tampil di website.</span>
+        <div class="seg">
+          <label><input type="radio" name="impMode" value="merge" checked> Gabungkan (tambah baru, ganti yang namanya sama)</label>
+          <label><input type="radio" name="impMode" value="replace"> Ganti semua paket buatan panel</label>
+          <label><input type="radio" name="impMode" value="del"> Hapus paket (isi JSON berupa daftar slug)</label>
         </div>
+        <div id="impErr" class="errbox" hidden></div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn" id="impParse">Baca JSON</button>
+          <button class="btn ghost sm" id="impSample">Isi contoh JSON</button>
+          <button class="btn ghost sm" id="impClear">Kosongkan</button>
+        </div>
+      </div>
+      <div class="panel" id="impPrev" hidden></div>
+      <div class="panel">
+        <h2>Format JSON yang dikenali</h2>
+        <ul>
+          <li><b>departures</b>: daftar tanggal berangkat, format <code>2026-12-02</code> atau <code>02/12/2026</code>. Tambah <code>*</code> untuk high season.</li>
+          <li><b>daily</b>: <code>["2026-11-01","2027-03-31"]</code> kalau berangkat setiap hari.</li>
+          <li><b>itinerary</b>: daftar hari, tiap hari <code>[judul, isi, hotel]</code>.</li>
+          <li><b>image</b>: nama file yang sudah ada di repo (mis. <code>img/bali.jpg</code>), atau data gambar base64.</li>
+          <li><b>flags</b>: kode negara untuk bendera, mis. <code>["th","my"]</code>.</li>
+          <li>Nama kolom bahasa Indonesia juga dikenali: <code>nama</code>, <code>tujuan</code>, <code>hari</code>, <code>harga</code>, <code>termasuk</code>, <code>syarat</code>.</li>
+          <li>Kalau nama paket sudah ada, paket itu diganti.</li>
+        </ul>
+        <details><summary style="cursor:pointer;font-weight:700;color:var(--b7)">Lihat contoh lengkap</summary><pre id="sampleView"></pre></details>
+      </div>
+      <div class="panel">
+        <h2>Ekspor paket ke JSON</h2>
+        <p class="h">Untuk cadangan, atau untuk diedit di tempat lain lalu diimpor lagi.</p>
+        <div class="seg">
+          <label><input type="radio" name="expScope" value="all" checked> Semua paket yang tampil di website</label>
+          <label><input type="radio" name="expScope" value="mine"> Hanya paket buatan/ubahan panel</label>
+        </div>
+        <div class="row" style="margin-top:8px"><button class="btn ghost" id="expCopy">Salin JSON</button><button class="btn ghost" id="expDl">Unduh file JSON</button></div>
       </div>
     </section>
 
@@ -179,7 +212,7 @@ ol li,ul li{margin:4px 0}
       <div class="panel">
         <h2>Sambung ke GitHub</h2>
         <p class="h">Repo: <b id="repoTxt"></b>. Token hanya disimpan di memori halaman ini dan hilang saat panel dikunci atau ditutup.</p>
-        <label>Token GitHub (fine-grained, izin Contents: Read and write)</label>
+        <label for="token">Token GitHub (fine-grained, izin Contents: Read and write)</label>
         <input type="password" id="token" placeholder="github_pat_…" autocomplete="off">
         <div class="row" style="margin-top:10px">
           <button class="btn" id="pull">Tes &amp; tarik data dari GitHub</button>
@@ -188,8 +221,8 @@ ol li,ul li{margin:4px 0}
         <div class="note">Cara buat token: GitHub → Settings → Developer settings → Fine-grained tokens → <i>Generate new token</i> → Repository access: <b>Only select repositories → givaholidays</b> → Permissions: <b>Contents = Read and write</b> → masa berlaku pendek (mis. 30 hari).</div>
       </div>
       <div class="panel">
-        <h2>Ekspor packages.json</h2>
-        <p class="h">Cadangan atau untuk diunggah manual ke repo.</p>
+        <h2>Cadangan packages.json</h2>
+        <p class="h">Isi lengkap file yang akan dipublish. Bisa disalin atau diunduh untuk diunggah manual ke repo.</p>
         <div class="row"><button class="btn ghost" id="copyJ">Salin JSON</button><button class="btn ghost" id="dlJ">Unduh packages.json</button></div>
         <textarea id="outJson" readonly style="margin-top:10px;min-height:180px"></textarea>
       </div>
@@ -200,36 +233,24 @@ ol li,ul li{margin:4px 0}
       <div class="panel">
         <h2>Panduan singkat</h2>
         <ol>
-          <li>Buka tab <b>Impor / Hapus JSON</b>, tempel kode JSON paket, pilih mode, klik <b>Periksa JSON</b>.</li>
-          <li>Cek hasilnya (merah = ditolak, kuning = diperbaiki otomatis), lalu <b>Terapkan</b>.</li>
-          <li>Isi token di tab <b>GitHub &amp; Ekspor</b> sekali, lalu klik <b>Publish</b> di bar bawah. Website ter-update dalam ±1 menit.</li>
+          <li>Tab <b>Paket Wisata</b>: klik <b>Tambah paket baru</b> atau <b>Ubah</b> pada kartu paket, isi formulir, lalu <b>Simpan paket</b>.</li>
+          <li>Punya banyak paket sekaligus? Pakai tab <b>Impor / Ekspor JSON</b>, tempel kode JSON, klik <b>Baca JSON</b>, cek hasilnya, lalu <b>Impor</b>.</li>
+          <li>Isi token sekali di tab <b>GitHub</b>, lalu klik <b>Publish</b> di bar bawah. Website ter-update dalam ±1 menit.</li>
           <li>Foto dokumentasi: tab <b>Dokumentasi</b> → pilih foto → isi keterangan dan kategori → <b>Tambahkan</b> → <b>Publish</b>. Foto ikut terunggah otomatis.</li>
-          <li>Salah hapus? Klik <b>Urungkan</b> sebelum Publish. Paket bawaan yang dihapus bisa dipulihkan.</li>
+          <li>Salah ubah? Klik <b>Urungkan</b> sebelum Publish. Paket bawaan bisa disembunyikan atau dikembalikan ke aslinya kapan saja.</li>
         </ol>
-        <h2 style="margin-top:18px">Format satu paket</h2>
-<pre>{
- "slug": "bangkok-pattaya-5d4n",      // huruf kecil, angka, tanda minus
- "name": "Bangkok Pattaya 5D4N",
- "dest": "Thailand", "type": "Internasional",
- "days": 5, "nights": 4, "flags": ["th"],
- "color": "#0a3d91,#1f6fe0", "price": 6350000, "tag": "Promo",
- "image": "img/bangkok.jpg", "featured": false,
- "items": ["Hotel bintang 4", "Makan sesuai program"],
- "departures": ["2026-12-20*", "2027-01-10"],      // * = high season
- "departuresCompact": {"2027-02": "7 14 21*"},       // alternatif ringkas
- "daily": ["2027-03-01", "2027-03-31"],              // berangkat setiap hari
- "itinerary": [["Hari 1 - Jakarta", "Berkumpul di bandara…", "Hotel"]],
- "bonus": [], "included": [], "excluded": [], "costs": [], "terms": []
-}</pre>
         <h2 style="margin-top:18px">Keamanan</h2>
         <ul>
           <li>Kode akses di halaman ini hanya penghalang awal. <b>Pengaman sebenarnya adalah token GitHub</b>: tanpa token, tidak ada yang bisa mengubah website.</li>
           <li>Gunakan token yang hanya untuk repo ini, masa berlaku pendek, dan jangan dibagikan.</li>
           <li>Panel terkunci otomatis setelah 15 menit tanpa aktivitas, dan salah kode berkali-kali akan dikunci sementara.</li>
-          <li>Semua isi JSON dibersihkan (tanda &lt; &gt; dibuang, gambar/warna/tanggal diperiksa) sebelum tampil di website.</li>
+          <li>Semua isi paket dibersihkan (tanda &lt; &gt; dibuang, gambar/warna/tanggal diperiksa) sebelum tampil di website.</li>
         </ul>
       </div>
     </section>
+
+    <!-- FORMULIR PAKET -->
+    <section data-p="form" hidden><div id="formBox"></div></section>
   </main>
 
   <div id="bar"><div class="wrap">
@@ -239,11 +260,6 @@ ol li,ul li{margin:4px 0}
   </div></div>
 </div>
 
-<dialog id="dlg"><h2 style="margin-top:0" id="dlgT">Edit paket</h2>
-  <textarea id="dlgJ" spellcheck="false" style="min-height:340px"></textarea>
-  <div id="dlgE" class="err" style="margin-top:6px"></div>
-  <div class="row" style="margin-top:10px;justify-content:flex-end"><button class="btn ghost" id="dlgX">Batal</button><button class="btn ok" id="dlgS">Simpan</button></div>
-</dialog>
 <div id="toast" hidden></div>
 
 <script src="site.js"></script>
@@ -256,29 +272,29 @@ if (window.top !== window.self) { try { window.top.location = window.self.locati
 const AUTH = { salt: "f91a4d416d5c945a5be9284af1801b20", hash: "ff329a956fc2d5bf1de411498936bbb719e76faaf9a30fb35feba51d7e89f797", iter: 250000 };
 const GH = { owner: "itkonsorsiumnasional-ai", repo: "givaholidays", branch: "main", file: "packages.json" };
 const IDLE_MS = 15 * 60 * 1000;
+const COLORS = ["#0a3d91,#1f6fe0", "#06306f,#0a4aa6", "#0a4aa6,#ffa800", "#1f6fe0,#5aa2ff", "#06306f,#1f6fe0"];
+const DOC_CATS = ["Malaysia", "Singapore", "Thailand", "Keberangkatan", "Lainnya"];
+const IMG_RE = /^img\/[A-Za-z0-9._-]{1,120}\.(jpg|jpeg|png|webp)$/i;
 const $ = id => document.getElementById(id);
 
 /* ---------- helpers ---------- */
-function el(tag, attrs, ...kids) {
-  const e = document.createElement(tag);
-  for (const k in (attrs || {})) {
-    if (k === "class") e.className = attrs[k];
-    else if (k.startsWith("on")) e.addEventListener(k.slice(2), attrs[k]);
-    else if (attrs[k] !== false && attrs[k] != null) e.setAttribute(k, attrs[k]);
-  }
-  kids.flat().forEach(c => { if (c != null) e.append(c.nodeType ? c : document.createTextNode(String(c))); });
-  return e;
-}
+const esc = s => String(s == null ? "" : s).replace(/[&<>"'`]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;", "`": "&#96;" }[c]));
 let toastT;
 function toast(msg, bad) {
   const t = $("toast"); t.textContent = msg; t.className = bad ? "bad" : ""; t.hidden = false;
-  clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 3800);
+  clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, bad ? 6000 : 3800);
 }
 const hex = b => [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join("");
 const unhex = s => new Uint8Array(s.match(/../g).map(h => parseInt(h, 16)));
 const rp = n => typeof n === "number" ? "Rp " + n.toLocaleString("id-ID") : "Hubungi kami";
 const clone = o => JSON.parse(JSON.stringify(o));
+const lines = v => String(v || "").split("\n").map(x => x.trim()).filter(Boolean);
 const builtinSlugs = new Set(BUILTIN_PACKAGES.map(p => p.slug));
+const stripSlash = s => String(s || "").replace(/^\//, "");
+function slugify(s) { return String(s).toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60) || "paket"; }
+function isoOf(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+const depKey = s => s.replace("*", "");
+const sortDeps = a => a.slice().sort((x, y) => depKey(x).localeCompare(depKey(y)));
 
 /* ---------- login (PBKDF2 + penguncian bertahap) ---------- */
 const LK = "gv_admin_lock";
@@ -311,7 +327,9 @@ $("lockForm").addEventListener("submit", async ev => {
 });
 
 /* ---------- state ---------- */
-let data, saved = "", sha = null, token = "", hist = [], sel = new Set(), prevRows = [];
+let data = null, saved = "", sha = null, token = "", hist = [];
+let pending = {}, pendingUrl = {}, docDraft = [], editing = null, curTab = "pkg", impPreview = null;
+
 const norm = d => {
   const o = { packages: [], hidden: [], docs: [] };
   if (Array.isArray(d)) { o.packages = d.map(cleanPackage).filter(Boolean); o.hidden = [...builtinSlugs].filter(s => !o.packages.some(p => p.slug === s)); return o; }
@@ -324,11 +342,9 @@ const norm = d => {
 };
 const effective = () => resolvePackages(data) || clone(BUILTIN_PACKAGES);
 const ser = () => JSON.stringify(data, null, 1) + "\n";
-function commit(next, label) {
-  hist.push(JSON.stringify(data)); if (hist.length > 30) hist.shift();
-  data = next; sel.clear(); refresh();
-}
-function refresh() { renderGrid(); renderHidden(); renderDocs(); stat(); }
+function commit(next) { hist.push(JSON.stringify(data)); if (hist.length > 30) hist.shift(); data = next; refresh(); }
+function mut(fn) { const d = clone(data); fn(d); commit(d); }
+function refresh() { renderGrid(); renderDocs(); stat(); }
 function stat() {
   $("outJson").value = ser();
   const dirty = ser() !== saved;
@@ -336,189 +352,504 @@ function stat() {
   $("st").className = "st" + (dirty ? " d" : "");
   $("undoBtn").disabled = !hist.length;
 }
-$("undoBtn").onclick = () => { if (!hist.length) return; data = JSON.parse(hist.pop()); sel.clear(); refresh(); toast("Dibatalkan satu langkah"); };
+$("undoBtn").onclick = () => { if (!hist.length) return; data = JSON.parse(hist.pop()); refresh(); toast("Dibatalkan satu langkah"); };
 
-/* ---------- daftar paket ---------- */
-function badge(p) {
-  const b = [];
-  if (p.featured) b.push(el("span", { class: "bg feat" }, "UNGGULAN"));
-  if (!builtinSlugs.has(p.slug)) b.push(el("span", { class: "bg new" }, "BARU"));
-  else if (data.packages.some(x => x.slug === p.slug)) b.push(el("span", { class: "bg mod" }, "DIUBAH"));
-  else b.push(el("span", { class: "bg" }, "BAWAAN"));
-  return b;
-}
-function renderGrid() {
-  const q = $("q").value.trim().toLowerCase(), list = effective();
-  const shown = list.filter(p => !q || (p.name + " " + p.dest + " " + p.slug).toLowerCase().includes(q));
-  const g = $("grid"); g.replaceChildren();
-  shown.forEach(p => {
-    const bgc = p.color.split(",");
-    const cb = el("input", { type: "checkbox", "aria-label": "Pilih " + p.name, onchange: e => { e.target.checked ? sel.add(p.slug) : sel.delete(p.slug); updSel(); e.target.closest(".pc").classList.toggle("sel", e.target.checked); } });
-    cb.checked = sel.has(p.slug);
-    g.append(el("div", { class: "pc" + (cb.checked ? " sel" : "") },
-      el("div", { class: "cv", style: "background:linear-gradient(135deg," + bgc[0] + "," + (bgc[1] || bgc[0]) + ")" }, cb),
-      el("div", { class: "bd" }, el("div", null, badge(p)), el("h3", null, p.name),
-        el("div", { class: "m" }, p.dest + " · " + p.days + "H" + p.nights + "M · " + p.type),
-        el("div", { class: "m" }, (p.departures ? p.departures.length + " tanggal" : p.daily ? "Harian" : "Tanggal belum diisi") + " · " + p.slug),
-        el("div", { class: "pr" }, rp(p.price))),
-      el("div", { class: "ft" },
-        el("button", { class: "btn ghost sm", onclick: () => editPkg(p.slug) }, "Edit"),
-        el("button", { class: "btn ghost sm", onclick: () => toggleFeat(p.slug) }, p.featured ? "Lepas unggulan" : "Jadikan unggulan"),
-        el("button", { class: "btn bad sm", onclick: () => delPkgs([p.slug]) }, "Hapus"))));
+function allPackages() {
+  const hidden = new Set(data.hidden), out = [];
+  BUILTIN_PACKAGES.forEach(b => {
+    const ov = data.packages.find(p => p.slug === b.slug);
+    out.push({ slug: b.slug, pkg: ov || b, status: hidden.has(b.slug) ? "hidden" : ov ? "changed" : "builtin" });
   });
-  $("count").textContent = shown.length + " dari " + list.length + " paket tampil di website";
-  updSel();
+  data.packages.filter(p => !builtinSlugs.has(p.slug)).forEach(p => out.push({ slug: p.slug, pkg: p, status: "new" }));
+  return out;
 }
-function updSel() { $("selN").textContent = sel.size; $("delSel").disabled = !sel.size; }
-function renderHidden() {
-  const box = $("hiddenBox"), l = $("hiddenList"); l.replaceChildren();
-  const hid = data.hidden.filter(s => builtinSlugs.has(s));
-  box.hidden = !hid.length;
-  hid.forEach(s => {
-    const b = BUILTIN_PACKAGES.find(p => p.slug === s);
-    l.append(el("div", { class: "row", style: "margin:6px 0" }, el("span", { class: "grow" }, b.name + " (" + s + ")"),
-      el("button", { class: "btn ghost sm", onclick: () => commit(Object.assign(clone(data), { hidden: data.hidden.filter(x => x !== s) })) }, "Pulihkan")));
-  });
-}
-$("q").oninput = renderGrid;
-$("selAll").onclick = () => { const q = $("q").value.trim().toLowerCase(); effective().filter(p => !q || (p.name + " " + p.dest + " " + p.slug).toLowerCase().includes(q)).forEach(p => sel.add(p.slug)); renderGrid(); };
-$("delSel").onclick = () => delPkgs([...sel]);
-
 function removeSlugs(d, slugs) {
   const s = new Set(slugs);
   d.packages = d.packages.filter(p => !s.has(p.slug));
   slugs.forEach(x => { if (builtinSlugs.has(x) && !d.hidden.includes(x)) d.hidden.push(x); });
   return d;
 }
-function delPkgs(slugs) {
-  if (!slugs.length) return;
-  const names = slugs.map(s => (effective().find(p => p.slug === s) || { name: s }).name);
-  if (!confirm("Hapus " + slugs.length + " paket?\n\n" + names.slice(0, 12).join("\n") + (names.length > 12 ? "\n…" : "") + "\n\nBisa diurungkan sebelum Publish.")) return;
-  commit(removeSlugs(clone(data), slugs)); toast(slugs.length + " paket dihapus");
+function imgSrc(p) {
+  const path = stripSlash(p);
+  if (pendingUrl[path]) return pendingUrl[path];
+  return /^\/?img\/[A-Za-z0-9._-]+$/.test(String(p || "")) ? String(p) : "";
 }
-function toggleFeat(slug) {
-  const p = clone(effective().find(x => x.slug === slug)); if (!p) return;
-  if (p.featured) delete p.featured; else p.featured = true;
-  upsert(p);
+
+/* ---------- daftar paket ---------- */
+const STATUS = { builtin: ["", "BAWAAN"], changed: ["mod", "DIUBAH"], new: ["new", "BARU"], hidden: ["hd", "DISEMBUNYIKAN"] };
+function renderGrid() {
+  const q = $("q").value.trim().toLowerCase(), list = allPackages();
+  const shown = list.filter(x => !q || (x.pkg.name + " " + x.pkg.dest + " " + x.slug).toLowerCase().includes(q));
+  $("grid").innerHTML = shown.map(x => {
+    const p = x.pkg, st = STATUS[x.status], im = imgSrc(p.image);
+    const cs = /^#[0-9a-f]{3,8},#[0-9a-f]{3,8}$/i.test(String(p.color || "")) ? p.color.split(",") : COLORS[0].split(",");
+    const dates = p.departures ? p.departures.length + " tanggal" : p.departuresCompact ? "Tanggal ringkas" : p.daily ? "Harian" : "Tanggal belum diisi";
+    return `<div class="pc${x.status === "hidden" ? " hid" : ""}">
+      <div class="cv" style="background:linear-gradient(135deg,${esc(cs[0])},${esc(cs[1] || cs[0])})">${im ? `<img src="${esc(im)}" alt="">` : ""}</div>
+      <div class="bd"><div>${p.featured ? '<span class="bg feat">UNGGULAN</span>' : ""}<span class="bg ${st[0]}">${st[1]}</span></div>
+        <h3>${esc(p.name)}</h3>
+        <div class="m">${esc(p.dest)} · ${esc(p.days)}H${esc(p.nights)}M · ${esc(p.type)}</div>
+        <div class="m">${esc(dates)} · ${esc(x.slug)}</div>
+        <div class="pr">${rp(p.price)}</div></div>
+      <div class="ft">${x.status === "hidden"
+        ? `<button class="btn ghost sm" data-act="show" data-slug="${esc(x.slug)}">Tampilkan lagi</button>`
+        : `<button class="btn ghost sm" data-act="edit" data-slug="${esc(x.slug)}">Ubah</button>
+           <button class="btn ghost sm" data-act="feat" data-slug="${esc(x.slug)}">${p.featured ? "Lepas unggulan" : "Jadikan unggulan"}</button>
+           <button class="btn dng sm" data-act="${x.status === "new" ? "del" : "hide"}" data-slug="${esc(x.slug)}">${x.status === "new" ? "Hapus" : "Sembunyikan"}</button>
+           ${x.status === "changed" ? `<button class="btn ghost sm" data-act="revert" data-slug="${esc(x.slug)}">Kembalikan ke asli</button>` : ""}`}
+      </div></div>`;
+  }).join("");
+  $("count").textContent = shown.length + " dari " + list.length + " paket · " + list.filter(x => x.status !== "hidden").length + " tampil di website";
 }
+$("q").oninput = renderGrid;
+$("grid").addEventListener("click", e => {
+  const b = e.target.closest("button[data-act]"); if (!b) return;
+  const slug = b.dataset.slug, a = b.dataset.act, item = allPackages().find(x => x.slug === slug); if (!item) return;
+  if (a === "edit") return openForm(item);
+  if (a === "feat") { const p = clone(item.pkg); if (p.featured) delete p.featured; else p.featured = true; return upsert(p); }
+  if (a === "del") { if (!confirm("Hapus paket ini dari website?\n\nBisa diurungkan sebelum Publish.")) return; mut(d => removeSlugs(d, [slug])); return toast("Paket dihapus"); }
+  if (a === "hide") { if (!confirm("Sembunyikan paket ini dari website? Bisa ditampilkan lagi kapan saja.")) return; mut(d => { if (!d.hidden.includes(slug)) d.hidden.push(slug); }); return; }
+  if (a === "show") return mut(d => { d.hidden = d.hidden.filter(s => s !== slug); });
+  if (a === "revert") { if (!confirm("Kembalikan paket ini ke versi aslinya? Perubahan Anda akan hilang.")) return; mut(d => { d.packages = d.packages.filter(p => p.slug !== slug); }); }
+});
+$("addPkg").onclick = () => openForm(null);
+$("goImp").onclick = () => tab("imp");
 function upsert(p) {
-  const d = clone(data); const i = d.packages.findIndex(x => x.slug === p.slug);
-  if (i >= 0) d.packages[i] = p; else d.packages.push(p);
-  d.hidden = d.hidden.filter(s => s !== p.slug); commit(d);
+  mut(d => { const i = d.packages.findIndex(x => x.slug === p.slug); if (i >= 0) d.packages[i] = p; else d.packages.push(p); d.hidden = d.hidden.filter(s => s !== p.slug); });
 }
 
-/* ---------- edit satu paket ---------- */
-let editing = null;
-function editPkg(slug) {
-  editing = slug; $("dlgT").textContent = "Edit paket: " + slug;
-  $("dlgJ").value = JSON.stringify(effective().find(p => p.slug === slug), null, 1); $("dlgE").textContent = ""; $("dlg").showModal();
+/* ---------- formulir paket ---------- */
+function expandCompact(o) {
+  const out = [];
+  if (!o || typeof o !== "object") return out;
+  Object.keys(o).forEach(k => {
+    if (!/^\d{4}-\d{2}$/.test(k)) return;
+    String(o[k]).split(/[\s,]+/).filter(Boolean).forEach(t => {
+      const pk = t.endsWith("*"), d = parseInt(t, 10);
+      if (d >= 1 && d <= 31) out.push(k + "-" + String(d).padStart(2, "0") + (pk ? "*" : ""));
+    });
+  });
+  return out;
 }
-$("dlgX").onclick = () => $("dlg").close();
-$("dlgS").onclick = () => {
-  let o; try { o = JSON.parse($("dlgJ").value); } catch (e) { $("dlgE").textContent = "JSON tidak valid: " + e.message; return; }
-  const r = checkOne(o);
-  if (r.err.length) { $("dlgE").textContent = r.err.join("; "); return; }
-  if (r.pkg.slug !== editing) { $("dlgE").textContent = "Slug tidak boleh diubah di sini (ini akan membuat paket baru, gunakan tab Impor)."; return; }
-  upsert(r.pkg); $("dlg").close(); toast("Paket disimpan");
-};
+function showForm(on) {
+  $("nav").hidden = on; $("bar").hidden = on;
+  document.querySelectorAll("[data-p]").forEach(s => s.hidden = on ? s.dataset.p !== "form" : s.dataset.p !== curTab);
+  window.scrollTo(0, 0);
+}
+function openForm(item) {
+  const base = item ? clone(item.pkg) : { name: "", dest: "", type: "", days: "", nights: "", price: null, tag: "", items: [], schedule: [], itinerary: [], included: [], excluded: [], costs: [], terms: [], bonus: [] };
+  let deps = clone(base.departures || []);
+  if (!deps.length && base.departuresCompact) deps = expandCompact(base.departuresCompact);
+  editing = {
+    isNew: !item, slug: base.slug || "", p: base,
+    mode: base.daily ? "daily" : deps.length ? "dates" : "none",
+    deps, daily: base.daily ? base.daily.slice() : ["", ""],
+    itin: (base.itinerary || []).map(d => ({ t: d[0] || "", x: d[1] || "", h: d[2] || "" })),
+    img: null
+  };
+  $("formBox").innerHTML = viewForm(); bindForm(); showForm(true);
+}
+function closeForm() { editing = null; $("formBox").replaceChildren(); showForm(false); }
 
-/* ---------- validasi & impor ---------- */
-function checkOne(p) {
-  const err = [], warn = [];
-  if (!p || typeof p !== "object" || Array.isArray(p)) return { err: ["bukan objek paket"], warn, pkg: null };
-  if (typeof p.slug !== "string" || !/^[a-z0-9-]{1,80}$/.test(p.slug)) err.push("slug harus huruf kecil/angka/minus");
-  ["name", "dest", "type"].forEach(k => { if (typeof p[k] !== "string" || !p[k].trim()) err.push(k + " wajib diisi"); });
-  if (!(parseInt(p.days, 10) > 0)) err.push("days harus angka > 0");
-  if (!(parseInt(p.nights, 10) >= 0)) err.push("nights harus angka ≥ 0");
-  const q = err.length ? null : cleanPackage(p);
-  if (!err.length && !q) err.push("data tidak lengkap");
-  if (q) {
-    if (p.image && !q.image) warn.push("gambar tidak valid, dibuang (pakai nama file mis. img/bali.jpg)");
-    if (p.color && q.color !== p.color) warn.push("warna tidak valid, pakai warna biru bawaan");
-    if (typeof p.price !== "number") warn.push("harga kosong → tampil 'Hubungi kami'");
-    const dn = (p.departures || []).length - (q.departures || []).length;
-    if (dn > 0) warn.push(dn + " tanggal keberangkatan tidak valid, dibuang");
-    if (p.itinerary && !q.itinerary) warn.push("itinerary tidak valid, dibuang");
-    if (/[<>`]/.test(JSON.stringify(p))) warn.push("tanda < > ` dibersihkan");
-    if (!q.departures && !q.daily) warn.push("belum ada tanggal keberangkatan");
+function viewForm() {
+  const e = editing, p = e.p, im = e.img ? e.img.url : imgSrc(p.image);
+  const copyOpts = allPackages().map(x => `<option value="${esc(x.slug)}">${esc(x.pkg.name)}</option>`).join("");
+  const curImg = !e.img && p.image ? stripSlash(p.image) : "";
+  return `<div class="row" style="margin-bottom:14px"><button class="btn ghost" id="fBack">&larr; Kembali</button><h1 style="margin:0;font-size:1.4rem">${e.isNew ? "Tambah paket baru" : "Ubah paket"}</h1></div>
+    <div id="fErr"></div>
+    <div class="panel"><h2>1. Informasi dasar</h2>
+      <label for="fName">Nama paket</label><input id="fName" type="text" maxlength="200" value="${esc(p.name)}" placeholder="Contoh: Bangkok Pattaya 5D4N">
+      <div class="fr">
+        <div><label for="fDest">Tujuan</label><input id="fDest" type="text" list="dlDest" value="${esc(p.dest)}" placeholder="Thailand"></div>
+        <div><label for="fType">Jenis</label><input id="fType" type="text" list="dlType" value="${esc(p.type)}" placeholder="Internasional / Domestik"></div>
+        <div><label for="fFlags">Kode bendera <small>(opsional, mis. th, my, sg)</small></label><input id="fFlags" type="text" value="${esc((p.flags || []).join(", "))}"></div>
+      </div>
+      <div class="fr">
+        <div><label for="fDays">Jumlah hari</label><input id="fDays" type="number" min="1" value="${esc(p.days)}"></div>
+        <div><label for="fNights">Jumlah malam</label><input id="fNights" type="number" min="0" value="${esc(p.nights)}"></div>
+        <div><label for="fPrice">Harga mulai dari <small>(angka saja, kosong = "Hubungi kami")</small></label><input id="fPrice" type="text" inputmode="numeric" value="${esc(p.price || "")}" placeholder="6350000"></div>
+        <div><label for="fTag">Label di kartu <small>(opsional, mis. Promo)</small></label><input id="fTag" type="text" maxlength="30" value="${esc(p.tag || "")}"></div>
+      </div>
+      <div class="seg"><label><input type="checkbox" id="fFeat"${p.featured ? " checked" : ""}> Jadikan paket unggulan</label></div>
+      <label for="fImg">Gambar / brosur paket <small>(opsional)</small></label>
+      <input id="fImg" type="file" accept="image/*">
+      <img class="imgprev" id="fPrev" ${im ? `src="${esc(im)}"` : 'style="display:none"'} alt="">
+      <label for="fImgPath">Atau nama file gambar yang sudah ada di repo <small>(mis. img/bali.jpg)</small></label>
+      <input id="fImgPath" type="text" value="${esc(curImg)}" placeholder="img/nama-file.jpg">
+      <p class="hint">Kalau Anda memilih file di atas, nama file ini diabaikan.</p>
+      <label for="fItems">Poin singkat di kartu <small>(satu poin per baris, 2 sampai 4 poin)</small></label>
+      <textarea id="fItems" placeholder="Hotel bintang 4&#10;Makan sesuai program">${esc((p.items || []).join("\n"))}</textarea>
+    </div>
+
+    <div class="panel"><h2>2. Jadwal keberangkatan</h2>
+      <div class="seg">
+        <label><input type="radio" name="fMode" value="dates"${e.mode === "dates" ? " checked" : ""}> Tanggal tertentu</label>
+        <label><input type="radio" name="fMode" value="daily"${e.mode === "daily" ? " checked" : ""}> Berangkat setiap hari</label>
+        <label><input type="radio" name="fMode" value="none"${e.mode === "none" ? " checked" : ""}> Tidak ada tanggal</label>
+      </div>
+      <div id="modeBody"></div>
+      <label for="fSched">Keterangan jadwal <small>(opsional, satu poin per baris)</small></label>
+      <textarea id="fSched" placeholder="Start keberangkatan Jakarta">${esc((p.schedule || []).join("\n"))}</textarea>
+    </div>
+
+    <div class="panel"><h2>3. Itinerary</h2>
+      <p class="h">Satu kotak untuk satu hari. Judul contoh: <code>DAY 1 : BANGKOK (No Meal)</code></p>
+      <div id="itin"></div>
+      <button class="btn ghost sm" id="addDay" type="button">+ Tambah hari</button>
+    </div>
+
+    <div class="panel"><h2>4. Fasilitas, biaya, dan syarat</h2>
+      <div class="fr" style="align-items:end"><div><label for="fCopy">Salin dari paket lain <small>(lalu bisa diedit)</small></label>
+        <select id="fCopy"><option value="">Pilih paket...</option>${copyOpts}</select></div>
+        <div><button class="btn ghost" id="fCopyGo" type="button">Salin isian di bawah</button></div></div>
+      <div class="fr">
+        <div><label for="fInc">Termasuk <small>(satu per baris)</small></label><textarea id="fInc">${esc((p.included || []).join("\n"))}</textarea></div>
+        <div><label for="fExc">Tidak termasuk <small>(satu per baris)</small></label><textarea id="fExc">${esc((p.excluded || []).join("\n"))}</textarea></div>
+      </div>
+      <label for="fBonus">Bonus <small>(opsional, satu per baris)</small></label><textarea id="fBonus">${esc((p.bonus || []).join("\n"))}</textarea>
+      <label for="fCosts">Biaya tambahan dan pembayaran <small>(satu per baris)</small></label><textarea id="fCosts">${esc((p.costs || []).join("\n"))}</textarea>
+      <label for="fTerms">Syarat dan ketentuan <small>(satu poin per baris)</small></label><textarea id="fTerms" style="min-height:160px">${esc((p.terms || []).join("\n"))}</textarea>
+    </div>
+
+    <div class="row"><button class="btn" id="fSave">Simpan paket</button><button class="btn ghost" id="fCancel">Batal</button>
+      <span class="hint">Setelah disimpan, klik Publish di bar bawah agar tampil di website.</span></div>`;
+}
+
+function syncItin() {
+  document.querySelectorAll("[data-it]").forEach(x => { const [i, k] = x.dataset.it.split("."); if (editing.itin[i]) editing.itin[i][k] = x.value; });
+}
+function renderItin() {
+  const box = $("itin");
+  box.innerHTML = editing.itin.map((d, i) => `<div class="day">
+    <div class="dh"><b>Hari ${i + 1}</b><button class="btn dng sm" type="button" data-rmday="${i}">Hapus hari</button></div>
+    <label>Judul hari</label><input type="text" data-it="${i}.t" value="${esc(d.t)}" placeholder="DAY ${i + 1} : ">
+    <label>Isi kegiatan</label><textarea data-it="${i}.x">${esc(d.x)}</textarea>
+    <label>Hotel <small>(opsional)</small></label><input type="text" data-it="${i}.h" value="${esc(d.h)}" placeholder="Nama hotel atau setara">
+  </div>`).join("") || `<p class="hint">Belum ada hari. Klik "Tambah hari".</p>`;
+  box.querySelectorAll("[data-rmday]").forEach(b => b.onclick = () => { syncItin(); editing.itin.splice(+b.dataset.rmday, 1); renderItin(); });
+}
+const fmtDate = iso => { const [y, m, d] = iso.split("-").map(Number); return new Date(y, m - 1, d).toLocaleDateString("id-ID", { weekday: "short", day: "numeric", month: "short", year: "numeric" }); };
+function addDep(iso, peak, quiet) {
+  const e = editing; e.deps = e.deps.filter(x => depKey(x) !== iso);
+  e.deps.push(iso + (peak ? "*" : "")); if (!quiet) renderMode();
+}
+function renderMode() {
+  const e = editing, box = $("modeBody");
+  if (e.mode === "none") { box.innerHTML = ""; return; }
+  if (e.mode === "daily") {
+    box.innerHTML = `<div class="fr"><div><label for="dFrom">Mulai tanggal</label><input id="dFrom" type="date" value="${esc(e.daily[0])}"></div>
+      <div><label for="dTo">Sampai tanggal</label><input id="dTo" type="date" value="${esc(e.daily[1])}"></div></div>
+      <p class="hint">Pelanggan bebas memilih tanggal di dalam periode ini.</p>`;
+    $("dFrom").onchange = ev => e.daily[0] = ev.target.value; $("dTo").onchange = ev => e.daily[1] = ev.target.value;
+    return;
   }
-  return { err, warn, pkg: q };
+  const sorted = sortDeps(e.deps);
+  box.innerHTML = `<div class="fr" style="align-items:end">
+      <div><label for="dOne">Tambah satu tanggal</label><input id="dOne" type="date"></div>
+      <div><label style="display:flex;gap:8px;align-items:center;margin:0 0 10px"><input type="checkbox" id="dPeak" style="width:auto"> High season (tampil merah)</label>
+        <button class="btn ghost sm" type="button" id="dAdd">Tambah</button></div></div>
+    <div class="fr" style="align-items:end;margin-top:6px">
+      <div><label for="dRepFrom">Atau ulangi tiap minggu, mulai</label><input id="dRepFrom" type="date"></div>
+      <div><label for="dRepTo">sampai</label><input id="dRepTo" type="date"></div>
+      <div><button class="btn ghost sm" type="button" id="dRep">Tambah tiap minggu</button></div></div>
+    <p class="hint">Contoh: mulai Rabu 4 Nov sampai 30 Des akan menambah semua hari Rabu di antaranya.</p>
+    <div class="chips">${sorted.map(s => { const pk = s.endsWith("*"); return `<span class="chip${pk ? " pk" : ""}">${esc(fmtDate(depKey(s)))}${pk ? " (high season)" : ""}<button type="button" data-rmdep="${esc(s)}" aria-label="Hapus">&times;</button></span>`; }).join("") || '<span class="hint">Belum ada tanggal.</span>'}</div>`;
+  $("dAdd").onclick = () => { const v = $("dOne").value; if (!v) return toast("Pilih tanggalnya dulu.", true); addDep(v, $("dPeak").checked); };
+  $("dRep").onclick = () => {
+    const a = $("dRepFrom").value, b = $("dRepTo").value, pk = $("dPeak").checked;
+    if (!a || !b || b < a) return toast("Isi tanggal mulai dan sampai dengan benar.", true);
+    const d = new Date(a + "T00:00:00"), end = new Date(b + "T00:00:00"); let n = 0;
+    while (d <= end && n < 200) { addDep(isoOf(d), pk, true); d.setDate(d.getDate() + 7); n++; }
+    renderMode();
+  };
+  box.querySelectorAll("[data-rmdep]").forEach(b => b.onclick = () => { e.deps = e.deps.filter(x => x !== b.dataset.rmdep); renderMode(); });
 }
-function parseInput(txt) {
-  const d = JSON.parse(txt);
-  if (Array.isArray(d)) return d;
-  if (d && Array.isArray(d.packages)) return d.packages;
-  if (d && typeof d === "object") return [d];
-  throw new Error("format tidak dikenali");
+function bindForm() {
+  const e = editing, all = allPackages();
+  const dl = (id, vals) => { let d = document.getElementById(id); if (!d) { d = document.createElement("datalist"); d.id = id; $("formBox").append(d); } d.innerHTML = [...new Set(vals.filter(Boolean))].map(v => `<option value="${esc(v)}">`).join(""); };
+  dl("dlDest", all.map(x => x.pkg.dest)); dl("dlType", all.map(x => x.pkg.type));
+  renderMode(); renderItin();
+  document.querySelectorAll('input[name="fMode"]').forEach(r => r.onchange = () => { e.mode = r.value; renderMode(); });
+  $("addDay").onclick = () => { syncItin(); e.itin.push({ t: "DAY " + (e.itin.length + 1) + " : ", x: "", h: "" }); renderItin(); };
+  $("fBack").onclick = $("fCancel").onclick = () => { if (confirm("Tutup formulir tanpa menyimpan?")) closeForm(); };
+  $("fImg").onchange = async ev => {
+    const f = ev.target.files[0]; if (!f) return;
+    try { const url = await resizeImage(f, 2000, 0.9); e.img = { url }; const pv = $("fPrev"); pv.src = url; pv.style.display = "block"; }
+    catch (err) { toast(err.message, true); }
+  };
+  $("fCopyGo").onclick = () => {
+    const s = $("fCopy").value; if (!s) return toast("Pilih paket sumber dulu.", true);
+    const src = allPackages().find(x => x.slug === s).pkg;
+    if (!confirm("Isian Termasuk, Tidak termasuk, Bonus, Biaya, dan Syarat akan diganti dengan milik paket itu. Lanjut?")) return;
+    $("fInc").value = (src.included || []).join("\n"); $("fExc").value = (src.excluded || []).join("\n");
+    $("fBonus").value = (src.bonus || []).join("\n"); $("fCosts").value = (src.costs || []).join("\n"); $("fTerms").value = (src.terms || []).join("\n");
+    toast("Isian disalin. Silakan sesuaikan seperlunya.");
+  };
+  $("fSave").onclick = saveForm;
 }
-$("sampleBtn").onclick = () => {
-  $("json").value = JSON.stringify([{
-    slug: "contoh-bali-5d4n", name: "Bali Holiday 5D4N", dest: "Bali", type: "Domestik", days: 5, nights: 4,
-    color: "#0a3d91,#1f6fe0", price: 4850000, tag: "Promo",
-    items: ["Hotel bintang 4", "Tiket pesawat PP", "Makan sesuai program"],
-    departures: ["2027-01-10", "2027-01-24*"],
-    itinerary: [["Hari 1 - Jakarta - Bali", "Berkumpul di bandara, terbang ke Bali.", "Hotel bintang 4"]],
-    included: ["Tiket pesawat PP"], excluded: ["Pengeluaran pribadi"], terms: ["Harga per orang, min. 2 peserta"]
-  }], null, 1);
-};
-$("clearJson").onclick = () => { $("json").value = ""; $("prev").hidden = true; };
-$("file").onchange = e => {
-  const f = e.target.files[0]; if (!f) return;
-  if (f.size > 2e6) { toast("File terlalu besar (maks 2 MB)", true); return; }
-  const r = new FileReader(); r.onload = () => { $("json").value = String(r.result); toast("File dimuat, klik Periksa JSON"); }; r.readAsText(f);
-};
-$("check").onclick = () => {
-  const mode = $("mode").value, txt = $("json").value.trim();
-  if (!txt) { toast("Tempel JSON dulu", true); return; }
-  let raw; try { raw = parseInput(txt); } catch (e) { toast("JSON tidak valid: " + e.message, true); return; }
-  if (!raw.length) { toast("JSON kosong", true); return; }
-  if (raw.length > 300) { toast("Maksimal 300 paket sekali impor", true); return; }
-  const cur = new Set(effective().map(p => p.slug)), seen = new Map();
-  prevRows = raw.map((p, i) => {
+function saveForm() {
+  syncItin();
+  const e = editing, v = id => $(id).value.trim(), problems = [];
+  const name = v("fName"), days = parseInt(v("fDays"), 10), nights = parseInt(v("fNights"), 10);
+  const price = parseInt(v("fPrice").replace(/\D/g, ""), 10) || null;
+  if (!name) problems.push("Nama paket belum diisi.");
+  if (!v("fDest")) problems.push("Tujuan belum diisi.");
+  if (!v("fType")) problems.push("Jenis belum diisi.");
+  if (!(days > 0)) problems.push("Jumlah hari harus angka lebih dari 0.");
+  if (!(nights >= 0)) problems.push("Jumlah malam harus berupa angka.");
+  const items = lines($("fItems").value);
+  if (!items.length) problems.push("Isi minimal satu poin singkat untuk kartu.");
+  if (e.mode === "daily" && (!e.daily[0] || !e.daily[1] || e.daily[1] < e.daily[0])) problems.push("Periode berangkat setiap hari belum benar.");
+  if (e.mode === "dates" && !e.deps.length) problems.push("Belum ada tanggal keberangkatan. Tambah tanggal atau pilih mode lain.");
+  const imgPath = stripSlash(v("fImgPath"));
+  if (!e.img && imgPath && !IMG_RE.test(imgPath)) problems.push("Nama file gambar tidak valid. Contoh: img/bali.jpg");
+  const itDays = e.itin.filter(d => d.t.trim() || d.x.trim());
+  if (itDays.some(d => !d.t.trim() || !d.x.trim())) problems.push("Ada hari itinerary yang judul atau isinya masih kosong.");
+  if (problems.length) {
+    $("fErr").innerHTML = `<div class="errbox"><b>Mohon dilengkapi:</b><ul style="margin:6px 0 0;padding-left:20px">${problems.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`;
+    window.scrollTo(0, 0); return;
+  }
+  let slug = e.slug;
+  if (e.isNew) {
+    const taken = new Set(allPackages().map(x => x.slug)); slug = slugify(name);
+    let n = 2; const s0 = slug; while (taken.has(slug)) slug = s0 + "-" + n++;
+  }
+  const pkg = { slug, name, dest: v("fDest"), type: v("fType"), days, nights, color: e.p.color || COLORS[allPackages().length % COLORS.length], price, tag: v("fTag"), image: imgPath, items };
+  const flags = v("fFlags").toLowerCase().split(/[\s,]+/).filter(f => /^[a-z]{2}$/.test(f));
+  if (flags.length) pkg.flags = flags;
+  if ($("fFeat").checked) pkg.featured = true;
+  let newImg = null;
+  if (e.img) { const path = "img/" + slug + "-" + Date.now() + ".jpg"; newImg = path; pkg.image = path; }
+  const sched = lines($("fSched").value); if (sched.length) pkg.schedule = sched;
+  if (e.mode === "dates") pkg.departures = sortDeps(e.deps);
+  if (e.mode === "daily") pkg.daily = e.daily.slice();
+  const bonus = lines($("fBonus").value); if (bonus.length) pkg.bonus = bonus;
+  if (itDays.length) pkg.itinerary = itDays.map(d => [d.t.trim(), d.x.trim(), d.h.trim()]);
+  pkg.included = lines($("fInc").value); pkg.excluded = lines($("fExc").value);
+  pkg.costs = lines($("fCosts").value); pkg.terms = lines($("fTerms").value);
+
+  const q = cleanPackage(pkg);
+  if (!q) { $("fErr").innerHTML = '<div class="errbox">Data paket tidak lolos pemeriksaan. Periksa kembali isian Anda.</div>'; window.scrollTo(0, 0); return; }
+  const notes = [];
+  if (pkg.image && q.image !== pkg.image) notes.push("gambar tidak valid dan dibuang");
+  if (pkg.schedule && !q.schedule) notes.push("keterangan jadwal belum didukung website Giva");
+  if (newImg && q.image === newImg) { pending[newImg] = e.img.url.split(",")[1]; pendingUrl[newImg] = e.img.url; }
+  upsert(q); closeForm(); tab("pkg");
+  toast(notes.length ? "Paket disimpan, tetapi " + notes.join("; ") + "." : "Paket disimpan. Klik Publish agar tampil di website.", !!notes.length);
+}
+
+/* ---------- impor JSON ---------- */
+const SAMPLE = { packages: [{
+  name: "Tour Vietnam 5D4N", dest: "Vietnam", type: "Internasional", days: 5, nights: 4, price: 7250000, tag: "Baru", flags: ["vn"],
+  items: ["Hanoi dan Halong Bay", "Berangkat tiap Rabu"],
+  departures: ["2026-12-02", "2026-12-09", "2026-12-25*"],
+  bonus: ["Free city tour Hanoi"],
+  itinerary: [["DAY 1 : HANOI (No Meal)", "Tiba di Hanoi, check in hotel.", "Hotel bintang 3 setaraf"], ["DAY 2 : HALONG BAY (B,L,D)", "Wisata kapal di Halong Bay.", ""]],
+  included: ["Tiket pesawat pulang pergi", "Hotel bintang 3 setaraf"],
+  excluded: ["Tips guide dan driver", "Biaya pribadi"],
+  costs: ["DP Rp 3.000.000 per orang. Pelunasan 20 hari sebelum berangkat."],
+  terms: ["Paspor berlaku minimal 6 bulan.", "Pembayaran tidak dapat dikembalikan."]
+}] };
+$("sampleView").textContent = JSON.stringify(SAMPLE, null, 2);
+
+const pick = (o, keys) => { for (const k of keys) if (o && o[k] !== undefined && o[k] !== null && o[k] !== "") return o[k]; return undefined; };
+const asList = v => Array.isArray(v) ? v.map(x => String(x).trim()).filter(Boolean) : (typeof v === "string" ? lines(v) : []);
+
+function normDate(x) {
+  let s = "", peak = false;
+  if (x && typeof x === "object") { s = String(pick(x, ["date", "tanggal"]) || ""); peak = !!pick(x, ["peak", "highSeason", "high_season"]); }
+  else s = String(x || "");
+  s = s.trim(); if (s.endsWith("*")) { peak = true; s = s.slice(0, -1).trim(); }
+  let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  if (!m) { const n = s.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/); if (n) m = [0, n[3], n[2], n[1]]; }
+  if (!m) return null;
+  const y = +m[1], mo = +m[2], d = +m[3], dt = new Date(y, mo - 1, d);
+  if (dt.getFullYear() !== y || dt.getMonth() !== mo - 1 || dt.getDate() !== d) return null;
+  return y + "-" + String(mo).padStart(2, "0") + "-" + String(d).padStart(2, "0") + (peak ? "*" : "");
+}
+function normPkg(raw, i) {
+  const errs = [], warns = [];
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return { errs: ["Bukan data paket yang valid."], warns, pkg: null };
+  const name = String(pick(raw, ["name", "nama", "title", "judul"]) || "").trim();
+  if (!name) errs.push("Nama paket kosong.");
+  const dm = name.match(/(\d+)\s*D\s*(\d+)\s*N/i);
+  let days = parseInt(pick(raw, ["days", "hari"]), 10), nights = parseInt(pick(raw, ["nights", "malam"]), 10);
+  if (!(days > 0) && dm) days = +dm[1];
+  if (!(days > 0)) errs.push("Jumlah hari tidak ada.");
+  if (!(nights >= 0) && dm) nights = +dm[2];
+  if (!(nights >= 0) && days > 0) { nights = days - 1; warns.push("Jumlah malam dihitung otomatis."); }
+  const dest = String(pick(raw, ["dest", "tujuan", "destination"]) || "").trim();
+  if (!dest) errs.push("Tujuan kosong.");
+  let type = String(pick(raw, ["type", "rute", "jenis"]) || "").trim();
+  if (!type && dest) { type = dest; warns.push("Jenis kosong, memakai nama tujuan."); }
+  if (errs.length) return { errs, warns, pkg: null };
+
+  const pr = pick(raw, ["price", "harga"]);
+  const price = pr === undefined ? null : (parseInt(String(pr).replace(/\D/g, ""), 10) || null);
+  if (price === null) warns.push("Harga kosong, tampil 'Hubungi kami'.");
+  let items = asList(pick(raw, ["items", "poin"]));
+  if (!items.length) { items = [dest, days + " hari " + nights + " malam"]; warns.push("Poin singkat kosong, dibuat otomatis."); }
+  const pkg = {
+    slug: slugify(String(pick(raw, ["slug"]) || name)), name, dest, type, days, nights,
+    color: /^#[0-9a-f]{3,8},#[0-9a-f]{3,8}$/i.test(String(raw.color || "")) ? raw.color : COLORS[i % COLORS.length],
+    price, tag: String(pick(raw, ["tag", "label"]) || "").trim(), image: "", items
+  };
+  let imageData = null;
+  const im = stripSlash(String(pick(raw, ["image", "gambar"]) || "").trim());
+  if (/^data:image\/(png|jpe?g|webp);base64,/i.test(im)) imageData = im; else pkg.image = im;
+  if (!im) warns.push("Tanpa gambar. Bisa ditambahkan lewat tombol Ubah.");
+  const fl = pick(raw, ["flags", "bendera"]); if (Array.isArray(fl) && fl.length) pkg.flags = fl;
+  if (pick(raw, ["featured", "unggulan"])) pkg.featured = true;
+  const sched = asList(pick(raw, ["schedule", "jadwal"])); if (sched.length) pkg.schedule = sched;
+
+  const depRaw = pick(raw, ["departures", "keberangkatan", "tanggal"]);
+  if (Array.isArray(depRaw)) {
+    const seen = new Set(), out = []; let bad = 0;
+    depRaw.forEach(x => { const d = normDate(x); if (!d) { bad++; return; } if (!seen.has(depKey(d))) { seen.add(depKey(d)); out.push(d); } });
+    if (bad) warns.push(bad + " tanggal dilewati karena formatnya tidak dikenali (pakai 2026-12-02 atau 02/12/2026).");
+    if (out.length) pkg.departures = sortDeps(out);
+  }
+  const dc = pick(raw, ["departuresCompact"]);
+  if (dc && !pkg.departures) { const ex = expandCompact(dc); if (ex.length) pkg.departures = sortDeps(ex); }
+  const dl = pick(raw, ["daily", "setiapHari", "setiap_hari"]);
+  if (dl && !pkg.departures) {
+    const a = Array.isArray(dl) ? dl : [pick(dl, ["from", "mulai"]), pick(dl, ["to", "sampai"])];
+    const f = normDate(a[0]), t = normDate(a[1]);
+    if (f && t && depKey(f) <= depKey(t)) pkg.daily = [depKey(f), depKey(t)];
+    else warns.push("Periode berangkat setiap hari tidak valid, dilewati.");
+  }
+  if (!pkg.departures && !pkg.daily) warns.push("Belum ada tanggal keberangkatan.");
+  const bonus = asList(pick(raw, ["bonus"])); if (bonus.length) pkg.bonus = bonus;
+
+  const itRaw = pick(raw, ["itinerary"]);
+  if (Array.isArray(itRaw)) {
+    let bad = 0;
+    const it = itRaw.map(d => Array.isArray(d) ? [d[0], d[1], d[2]] : [pick(d, ["title", "judul", "t"]), pick(d, ["text", "isi", "kegiatan", "x"]), pick(d, ["hotel", "h"])])
+      .map(d => [String(d[0] || "").trim(), String(d[1] || "").trim(), String(d[2] || "").trim()])
+      .filter(d => { if (d[0] && d[1]) return true; bad++; return false; });
+    if (bad) warns.push(bad + " hari itinerary dilewati karena judul atau isinya kosong.");
+    if (it.length) pkg.itinerary = it;
+  }
+  pkg.included = asList(pick(raw, ["included", "termasuk"]));
+  pkg.excluded = asList(pick(raw, ["excluded", "tidakTermasuk", "tidak_termasuk"]));
+  pkg.costs = asList(pick(raw, ["costs", "biaya"]));
+  pkg.terms = asList(pick(raw, ["terms", "syarat"]));
+  if (!pkg.included.length && !pkg.terms.length) warns.push("Fasilitas dan syarat kosong. Bisa dilengkapi lewat Ubah.");
+  return { errs, warns, pkg, imageData };
+}
+const impMode = () => document.querySelector('input[name="impMode"]:checked').value;
+function impError(m) { const b = $("impErr"); b.textContent = m || ""; b.hidden = !m; }
+function parseImport() {
+  impError(""); impPreview = null; $("impPrev").hidden = true;
+  let t = $("impText").value.trim().replace(/^\uFEFF/, "");
+  const fm = t.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (fm) t = fm[1].trim();
+  else { const a = t.search(/[\[{]/), z = Math.max(t.lastIndexOf("}"), t.lastIndexOf("]")); if (a > -1 && z > a) t = t.slice(a, z + 1); }
+  if (!t) return impError("Tempel kode JSON atau pilih file dulu.");
+  let j; try { j = JSON.parse(t); } catch (e) { return impError("Kode JSON tidak valid: " + e.message + ". Cek tanda koma, kurung, dan tanda kutip."); }
+  let list = null;
+  if (Array.isArray(j)) list = j;
+  else if (j && typeof j === "object") {
+    const arr = pick(j, ["packages", "paket", "data"]);
+    if (Array.isArray(arr)) list = arr; else if (pick(j, ["name", "nama", "slug"])) list = [j];
+  }
+  if (!list || !list.length) return impError("Tidak ada paket yang terbaca. Isinya harus daftar paket (lihat contoh format).");
+  if (list.length > 300) return impError("Maksimal 300 paket sekali impor.");
+  const mode = impMode(), all = allPackages(), existing = new Set(all.map(x => x.slug)), seen = new Set();
+  const byName = new Map(all.map(x => [String(x.pkg.name).trim().toLowerCase(), x.slug]));
+  const items = list.map((raw, i) => {
     if (mode === "del") {
-      const s = typeof p === "string" ? p : p && p.slug;
-      const ex = cur.has(s);
-      return { slug: String(s), name: ex ? effective().find(x => x.slug === s).name : "-", err: ex ? [] : ["slug tidak ditemukan"], warn: [], status: "HAPUS", on: ex, del: true };
+      const s = typeof raw === "string" ? raw : raw && (raw.slug || raw.name);
+      const hit = all.find(a => a.slug === s || String(a.pkg.name).trim().toLowerCase() === String(s || "").trim().toLowerCase());
+      return { errs: hit ? [] : ["paket tidak ditemukan"], warns: [], pkg: null, del: hit ? hit.slug : null, status: "hapus", include: !!hit, label: hit ? hit.pkg.name : String(s || "#" + (i + 1)) };
     }
-    const r = checkOne(p);
-    if (r.pkg) { if (seen.has(r.pkg.slug)) { r.warn.push("slug dobel, yang terakhir dipakai"); prevRowsDup(seen.get(r.pkg.slug)); } seen.set(r.pkg.slug, i); }
-    return { slug: r.pkg ? r.pkg.slug : (p && p.slug) || "#" + (i + 1), name: r.pkg ? r.pkg.name : (p && p.name) || "-", days: r.pkg && r.pkg.days + "H" + r.pkg.nights + "M", price: r.pkg && rp(r.pkg.price),
-      err: r.err, warn: r.warn, pkg: r.pkg, status: r.pkg ? (cur.has(r.pkg.slug) && mode !== "replace" ? "TIMPA" : "BARU") : "DITOLAK", on: !!r.pkg };
+    const r = normPkg(raw, i);
+    if (r.pkg) {
+      const q = cleanPackage(r.pkg);
+      if (!q) { r.errs.push("data tidak lolos pemeriksaan"); r.pkg = null; }
+      else { if (r.pkg.image && q.image !== r.pkg.image) r.warns.push("gambar tidak valid, dibuang (pakai nama file mis. img/bali.jpg)"); r.pkg = q; }
+    }
+    if (r.pkg) {
+      const hasSlug = raw && typeof raw === "object" && pick(raw, ["slug"]);
+      const same = byName.get(r.pkg.name.toLowerCase());
+      if (!hasSlug && same) r.pkg.slug = same;
+      let s = r.pkg.slug, n = 2; while (seen.has(s)) s = r.pkg.slug + "-" + n++;
+      if (s !== r.pkg.slug) { r.pkg.slug = s; r.warns.push("Nama kembar di file, diberi akhiran angka."); }
+      seen.add(s); r.status = existing.has(s) && mode !== "replace" ? "ganti" : "baru";
+    }
+    r.include = !r.errs.length; r.label = r.pkg ? r.pkg.name : "Data nomor " + (i + 1);
+    return r;
   });
-  function prevRowsDup(i) { prevRows[i].on = false; prevRows[i].warn.push("diabaikan (dobel)"); }
-  const ok = prevRows.filter(r => !r.err.length).length, bad = prevRows.length - ok;
-  const tb = $("prevBody"); tb.replaceChildren();
-  prevRows.forEach(r => {
-    const cb = el("input", { type: "checkbox", onchange: e => r.on = e.target.checked }); cb.checked = r.on; cb.disabled = !!r.err.length;
-    tb.append(el("tr", null, el("td", null, cb), el("td", null, r.slug), el("td", null, r.name), el("td", null, r.days || ""), el("td", null, r.price || ""),
-      el("td", null, el("span", { class: r.err.length ? "err" : "okc" }, r.status), r.err.map(x => el("div", { class: "err" }, "✖ " + x)), r.warn.map(x => el("div", { class: "wr" }, "⚠ " + x)))));
-  });
-  $("prevSum").textContent = ok + " valid, " + bad + " ditolak. Mode: " + $("mode").selectedOptions[0].textContent.split(" (")[0];
-  $("prevAll").checked = true; $("prev").hidden = false; $("prev").scrollIntoView({ behavior: "smooth" });
-};
-$("prevAll").onchange = e => { prevRows.forEach(r => { if (!r.err.length) r.on = e.target.checked; }); [...$("prevBody").querySelectorAll("input")].forEach((c, i) => { if (!prevRows[i].err.length) c.checked = prevRows[i].on; }); };
-$("apply").onclick = () => {
-  const rows = prevRows.filter(r => r.on && !r.err.length), mode = $("mode").value;
-  if (!rows.length) { toast("Tidak ada yang dicentang", true); return; }
+  impPreview = { items, mode };
+  renderImpPrev();
+}
+function renderImpPrev() {
+  const pv = impPreview, box = $("impPrev"); if (!pv) { box.hidden = true; return; }
+  const ok = pv.items.filter(x => x.include && !x.errs.length).length;
+  box.innerHTML = `<h2>Hasil bacaan: ${pv.items.length} data</h2>` + pv.items.map((x, i) => {
+    const p = x.pkg;
+    const meta = p ? p.days + " hari " + p.nights + " malam · " + rp(p.price) + " · " + (p.departures ? p.departures.length + " tanggal" : p.daily ? "setiap hari" : "tanpa tanggal") + " · " + (p.itinerary ? p.itinerary.length + " hari itinerary" : "tanpa itinerary") : "";
+    const bd = x.errs.length ? '<span class="bg hd">TIDAK BISA DIIMPOR</span>' : x.status === "hapus" ? '<span class="bg hd">AKAN DIHAPUS</span>' : x.status === "baru" ? '<span class="bg new">BARU</span>' : '<span class="bg mod">MENGGANTI YANG ADA</span>';
+    return `<div class="imp${x.errs.length ? " bad" : ""}"><div class="dh"><label style="margin:0;display:flex;gap:10px;align-items:center"><input type="checkbox" data-impi="${i}" style="width:auto"${x.include ? " checked" : ""}${x.errs.length ? " disabled" : ""}><b>${esc(x.label)}</b></label>${bd}</div>
+      ${meta ? `<div class="hint" style="margin-left:28px">${esc(meta)}</div>` : ""}
+      ${x.errs.map(m => `<div class="err" style="margin-left:28px">✖ ${esc(m)}</div>`).join("")}
+      ${x.warns.map(m => `<div class="wr" style="margin-left:28px">⚠ ${esc(m)}</div>`).join("")}</div>`;
+  }).join("") + `<div class="row" style="margin-top:12px"><button class="btn ok" id="impApply"${ok ? "" : " disabled"}>${pv.mode === "del" ? "Hapus " : "Impor "}${ok} paket</button><span class="hint">Belum mengubah website sebelum Anda klik Publish.</span></div>`;
+  box.hidden = false;
+  box.querySelectorAll("[data-impi]").forEach(c => c.onchange = () => { impPreview.items[+c.dataset.impi].include = c.checked; renderImpPrev(); });
+  const ap = $("impApply"); if (ap) ap.onclick = applyImport;
+}
+function applyImport() {
+  const sel = impPreview.items.filter(x => x.include && !x.errs.length), mode = impPreview.mode;
+  if (!sel.length) return toast("Belum ada yang dipilih.", true);
   const d = clone(data);
   if (mode === "del") {
-    if (!confirm("Hapus " + rows.length + " paket?")) return;
-    removeSlugs(d, rows.map(r => r.slug));
-  } else if (mode === "replace") {
-    if (!confirm("Ganti SEMUA paket di website dengan " + rows.length + " paket dari JSON ini? Paket lain akan dihapus (bisa diurungkan sebelum Publish).")) return;
-    d.packages = rows.map(r => r.pkg);
-    d.hidden = [...builtinSlugs].filter(s => !d.packages.some(p => p.slug === s));
+    if (!confirm("Hapus " + sel.length + " paket? Bisa diurungkan sebelum Publish.")) return;
+    removeSlugs(d, sel.map(x => x.del));
   } else {
-    rows.forEach(r => { const i = d.packages.findIndex(x => x.slug === r.slug); if (i >= 0) d.packages[i] = r.pkg; else d.packages.push(r.pkg); d.hidden = d.hidden.filter(s => s !== r.slug); });
+    if (mode === "replace") {
+      if (!confirm("Semua paket buatan/ubahan panel diganti dengan isi JSON ini. Paket bawaan tidak ikut terhapus. Lanjut?")) return;
+      d.packages = [];
+    }
+    sel.forEach((x, i) => {
+      const p = x.pkg;
+      if (x.imageData) {
+        const ext = (x.imageData.match(/^data:image\/(png|jpe?g|webp)/i)[1] || "jpg").replace("jpeg", "jpg").toLowerCase();
+        const path = "img/" + p.slug + "-" + Date.now() + "-" + i + "." + ext;
+        pending[path] = x.imageData.split(",")[1]; pendingUrl[path] = x.imageData; p.image = path;
+      }
+      const k = d.packages.findIndex(q => q.slug === p.slug);
+      if (k > -1) d.packages[k] = p; else d.packages.push(p);
+      d.hidden = d.hidden.filter(s => s !== p.slug);
+    });
   }
-  commit(d); $("prev").hidden = true; $("json").value = "";
-  toast(rows.length + " paket diproses. Klik Publish agar tampil di website.");
+  commit(d); impPreview = null; $("impPrev").hidden = true; $("impText").value = "";
+  toast(sel.length + " paket diproses. Klik Publish agar tampil di website.");
   tab("pkg");
+}
+$("impParse").onclick = parseImport;
+$("impClear").onclick = () => { $("impText").value = ""; impPreview = null; $("impPrev").hidden = true; impError(""); };
+$("impSample").onclick = () => { $("impText").value = JSON.stringify(SAMPLE, null, 2); };
+document.querySelectorAll('input[name="impMode"]').forEach(r => r.onchange = () => { impPreview = null; $("impPrev").hidden = true; });
+$("impFile").onchange = e => {
+  const f = e.target.files[0]; if (!f) return;
+  if (f.size > 2e6) { toast("File terlalu besar (maks 2 MB)", true); return; }
+  const r = new FileReader(); r.onload = () => { $("impText").value = String(r.result); parseImport(); }; r.readAsText(f);
 };
+function exportJson() {
+  const scope = document.querySelector('input[name="expScope"]:checked').value;
+  const list = scope === "mine" ? data.packages : allPackages().filter(x => x.status !== "hidden").map(x => x.pkg);
+  return JSON.stringify({ packages: list }, null, 2);
+}
+async function copyText(t) { try { await navigator.clipboard.writeText(t); return true; } catch (e) { return false; } }
+$("expCopy").onclick = async () => toast((await copyText(exportJson())) ? "JSON disalin" : "Gagal menyalin, gunakan tombol Unduh", false);
+$("expDl").onclick = () => download(exportJson(), "paket-giva.json");
+function download(txt, name) {
+  const u = URL.createObjectURL(new Blob([txt], { type: "application/json" }));
+  const a = document.createElement("a"); a.href = u; a.download = name; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000);
+}
 
 /* ---------- dokumentasi ---------- */
-const DOC_CATS = ["Malaysia", "Singapore", "Thailand", "Keberangkatan", "Lainnya"];
-let docDraft = [], pending = {}, pendingUrl = {};
 function resizeImage(file, max, q) {
   return new Promise((res, rej) => {
     const url = URL.createObjectURL(file), img = new Image();
@@ -533,27 +864,26 @@ function resizeImage(file, max, q) {
     img.src = url;
   });
 }
-const catSel = (cur, fn) => {
-  const s = el("select", { onchange: e => fn(e.target.value) });
-  [...new Set([...DOC_CATS, cur].filter(Boolean))].forEach(c => { const o = el("option", null, c); if (c === cur) o.selected = true; s.append(o); });
-  return s;
-};
+const catOpts = cur => [...new Set([...DOC_CATS, cur].filter(Boolean))].map(c => `<option${c === cur ? " selected" : ""}>${esc(c)}</option>`).join("");
 function renderDocs() {
-  const dr = $("docDraft"); dr.replaceChildren();
-  docDraft.forEach((d, i) => dr.append(el("div", { class: "doc" }, el("img", { src: d.url, alt: "" }),
-    el("div", { class: "bd" },
-      el("input", { type: "text", maxlength: "200", placeholder: "Keterangan foto", value: d.cap, oninput: e => d.cap = e.target.value }),
-      catSel(d.cat, v => d.cat = v),
-      el("button", { class: "btn bad sm", onclick: () => { docDraft.splice(i, 1); renderDocs(); } }, "Buang")))));
+  $("docDraft").innerHTML = docDraft.map((d, i) => `<div class="doc"><img src="${esc(d.url)}" alt="">
+    <div class="bd"><input type="text" maxlength="200" data-dcap="${i}" placeholder="Keterangan foto" value="${esc(d.cap)}">
+    <select data-dcat="${i}">${catOpts(d.cat)}</select>
+    <button class="btn dng sm" data-drm="${i}">Buang</button></div></div>`).join("");
   $("docDraftBar").hidden = !docDraft.length; $("dokAdd").textContent = "Tambahkan " + docDraft.length + " foto";
-  const l = $("docList"); l.replaceChildren();
-  (data ? data.docs : []).forEach((d, i) => l.append(el("div", { class: "doc" }, el("img", { src: pendingUrl[d.src] || d.src, alt: "" }),
-    el("div", { class: "bd" },
-      el("input", { type: "text", maxlength: "200", value: d.cap, placeholder: "Keterangan foto", oninput: e => { d.cap = e.target.value; stat(); } }),
-      catSel(d.cat, v => { d.cat = v; stat(); }),
-      pending[d.src] ? el("span", { class: "bg new" }, "BELUM DIUNGGAH") : null,
-      el("button", { class: "btn bad sm", onclick: () => { if (!confirm("Hapus foto ini dari dokumentasi?")) return; const n = clone(data); n.docs.splice(i, 1); commit(n); } }, "Hapus")))));
-  $("docEmpty").hidden = !!(data && data.docs.length);
+  const docs = data ? data.docs : [];
+  $("docList").innerHTML = docs.map((d, i) => `<div class="doc"><img src="${esc(imgSrc(d.src))}" alt="">
+    <div class="bd"><input type="text" maxlength="200" data-ecap="${i}" value="${esc(d.cap)}" placeholder="Keterangan foto">
+    <select data-ecat="${i}">${catOpts(d.cat)}</select>
+    ${pending[stripSlash(d.src)] ? '<span class="bg new">BELUM DIUNGGAH</span>' : ""}
+    <button class="btn dng sm" data-edel="${i}">Hapus</button></div></div>`).join("");
+  $("docEmpty").hidden = !!docs.length;
+  document.querySelectorAll("[data-dcap]").forEach(x => x.oninput = () => docDraft[x.dataset.dcap].cap = x.value);
+  document.querySelectorAll("[data-dcat]").forEach(x => x.onchange = () => docDraft[x.dataset.dcat].cat = x.value);
+  document.querySelectorAll("[data-drm]").forEach(b => b.onclick = () => { docDraft.splice(+b.dataset.drm, 1); renderDocs(); });
+  document.querySelectorAll("[data-ecap]").forEach(x => x.oninput = () => { data.docs[x.dataset.ecap].cap = x.value; stat(); });
+  document.querySelectorAll("[data-ecat]").forEach(x => x.onchange = () => { data.docs[x.dataset.ecat].cat = x.value; stat(); });
+  document.querySelectorAll("[data-edel]").forEach(b => b.onclick = () => { if (!confirm("Hapus foto ini dari dokumentasi?")) return; mut(n => n.docs.splice(+b.dataset.edel, 1)); });
 }
 $("dokFiles").onchange = async e => {
   const files = [...e.target.files].slice(0, 30); e.target.value = "";
@@ -566,8 +896,8 @@ $("dokFiles").onchange = async e => {
   renderDocs();
 };
 $("dokAdd").onclick = () => {
-  const n = clone(data); const stamp = Date.now();
-  if (n.docs.length + docDraft.length > 300) { toast("Maksimal 300 foto dokumentasi", true); return; }
+  if (data.docs.length + docDraft.length > 300) { toast("Maksimal 300 foto dokumentasi", true); return; }
+  const stamp = Date.now(), n = clone(data);
   docDraft.forEach((d, i) => {
     const path = "img/dok-" + stamp + "-" + i + ".jpg";
     pending[path] = d.url.split(",")[1]; pendingUrl[path] = d.url;
@@ -592,8 +922,8 @@ async function pull(silent) {
     const j = await r.json(); sha = j.sha;
     if (j.encoding !== "base64" || !j.content) { toast("File terlalu besar untuk ditarik lewat API", true); return; }
     const d = norm(JSON.parse(b64dec(j.content)));
-    if (ser() !== JSON.stringify(d, null, 1) + "\n") hist.push(JSON.stringify(data));
-    data = d; saved = ser(); sel.clear(); refresh(); if (!silent) toast("Data dari GitHub dimuat");
+    if (ser() !== JSON.stringify(d, null, 1) + "\n") { hist.push(JSON.stringify(data)); if (hist.length > 30) hist.shift(); }
+    data = d; saved = ser(); refresh(); if (!silent) toast("Data dari GitHub dimuat");
   } catch (e) { toast("Gagal terhubung: " + e.message, true); }
 }
 async function publish() {
@@ -605,10 +935,11 @@ async function publish() {
   $("pub").disabled = $("pub2").disabled = true;
   try {
     const base = "https://api.github.com/repos/" + GH.owner + "/" + GH.repo + "/contents/";
-    const used = new Set(data.docs.map(d => d.src)), ups = Object.keys(pending).filter(p => used.has(p) && /^img\/dok-[0-9-]+\.jpg$/.test(p));
+    const used = new Set([...data.packages.map(p => p.image), ...data.docs.map(d => d.src)].filter(Boolean).map(stripSlash));
+    const ups = Object.keys(pending).filter(p => used.has(p) && IMG_RE.test(p));
     let k = 0;
     for (const path of ups) {
-      toast("Mengunggah foto " + (++k) + "/" + ups.length + "…");
+      toast("Mengunggah gambar " + (++k) + "/" + ups.length + "…");
       const ex = await fetch(base + path + "?ref=" + encodeURIComponent(GH.branch), { headers: hdr(), cache: "no-store" });
       const pb = { message: "Admin: unggah " + path, content: pending[path], branch: GH.branch };
       if (ex.ok) pb.sha = (await ex.json()).sha;
@@ -625,18 +956,19 @@ async function publish() {
     const r = await fetch(API, { method: "PUT", headers: Object.assign({ "Content-Type": "application/json" }, hdr()), body: JSON.stringify(put) });
     if (!r.ok) { toast("Publish gagal (" + r.status + ")", true); return; }
     sha = (await r.json()).content.sha; saved = body; refresh();
-    renderDocs(); toast("✓ Terpublish. Website ter-update dalam ±1 menit.");
+    toast("✓ Terpublish. Website ter-update dalam ±1 menit.");
   } catch (e) { toast("Gagal: " + e.message, true); }
   finally { $("pub").disabled = $("pub2").disabled = false; }
 }
 $("pull").onclick = $("pull2").onclick = () => pull();
 $("pub").onclick = $("pub2").onclick = publish;
-$("copyJ").onclick = async () => { try { await navigator.clipboard.writeText(ser()); toast("JSON disalin"); } catch (e) { $("outJson").select(); toast("Tekan Ctrl+C untuk menyalin"); } };
-$("dlJ").onclick = () => { const a = el("a", { href: URL.createObjectURL(new Blob([ser()], { type: "application/json" })), download: "packages.json" }); document.body.append(a); a.click(); a.remove(); };
+$("copyJ").onclick = async () => toast((await copyText(ser())) ? "JSON disalin" : "Gagal menyalin, pilih teks lalu Ctrl+C", false);
+$("dlJ").onclick = () => download(ser(), "packages.json");
 $("repoTxt").textContent = GH.owner + "/" + GH.repo + " (" + GH.branch + ")";
 
 /* ---------- tab, kunci, idle ---------- */
 function tab(t) {
+  curTab = t;
   document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.t === t));
   document.querySelectorAll("[data-p]").forEach(s => s.hidden = s.dataset.p !== t);
   window.scrollTo(0, 0);
@@ -647,11 +979,11 @@ let idle;
 function resetIdle() { clearTimeout(idle); idle = setTimeout(lockUp, IDLE_MS); }
 ["click", "keydown", "mousemove", "touchstart"].forEach(ev => document.addEventListener(ev, () => { if (!$("app").hidden) resetIdle(); }, { passive: true }));
 function lockUp() {
-  clearTimeout(idle); token = ""; $("token").value = ""; $("json").value = ""; $("dlgJ").value = "";
-  try { $("dlg").close(); } catch (e) {}
-  data = null; hist = []; sel.clear(); prevRows = []; docDraft = []; pending = {}; pendingUrl = {};
-  ["docDraft", "docList"].forEach(i => $(i).replaceChildren());
-  ["grid", "hiddenList", "prevBody"].forEach(i => $(i).replaceChildren()); $("outJson").value = ""; $("prev").hidden = true;
+  clearTimeout(idle); token = ""; $("token").value = ""; $("impText").value = "";
+  data = null; hist = []; docDraft = []; pending = {}; pendingUrl = {}; impPreview = null; editing = null; sha = null;
+  ["formBox", "grid", "docDraft", "docList", "impPrev"].forEach(i => $(i).replaceChildren());
+  $("impPrev").hidden = true; $("outJson").value = ""; $("sampleView").scrollTop = 0;
+  showForm(false); curTab = "pkg";
   $("app").hidden = true; $("lock").hidden = false;
 }
 $("lockNow").onclick = lockUp;
