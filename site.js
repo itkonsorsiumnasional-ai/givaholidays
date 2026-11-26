@@ -22,7 +22,7 @@ const SITE = {
   email: "givaholidays@gmail.com",                           // isi jika ada, kosong = tidak ditampilkan
   instagram: "givaholidays",
   tiktok: "givaholidays",
-  facebook: "givaholidays",
+  facebook: "giva holiday",
   website: "www.givaholidays.com",
   address: "",                         // isi alamat kantor, kosong = tidak ditampilkan
   hours: "Senin sampai Sabtu, 09.00 sampai 17.00",
